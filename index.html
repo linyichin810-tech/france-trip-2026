@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>里昂・第戎・巴黎 17日行程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6EFE2;
+    --paper-2:#EFE5D2;
+    --ink:#2B2621;
+    --ink-soft:#6B6355;
+    --line:#D9CBAE;
+    --lyon:#7A2E3B;
+    --lyon-tint:#F1E1E2;
+    --dijon:#A9791C;
+    --dijon-tint:#F3E6C6;
+    --paris:#1F2A44;
+    --paris-tint:#E2E5EC;
+    --transit:#4C6350;
+    --transit-tint:#E3EADF;
+    --gold:#C9A227;
+    --warn:#B4472B;
+    --warn-tint:#F5DCD2;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    display:flex;
+    justify-content:center;
+  }
+  .app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;margin:0;}
+  .app-header{
+    padding:22px 20px 16px;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    z-index:5;
+  }
+  .app-header .eyebrow{
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  .app-header h1{
+    font-size:26px;
+    font-weight:600;
+    line-height:1.15;
+    color:var(--ink);
+  }
+  .app-header .dates{
+    margin-top:6px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .city-legend{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    flex-wrap:wrap;
+  }
+  .city-legend span{
+    font-size:11px;
+    padding:3px 9px;
+    border-radius:20px;
+    font-weight:600;
+  }
+  .leg-lyon{background:var(--lyon-tint);color:var(--lyon);}
+  .leg-dijon{background:var(--dijon-tint);color:var(--dijon);}
+  .leg-paris{background:var(--paris-tint);color:var(--paris);}
+
+  main{
+    flex:1;
+    padding-bottom:88px;
+    overflow-x:hidden;
+  }
+  .tab{display:none;}
+  .tab.active{display:block;}
+
+  .day-chips{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:14px 16px;
+    background:var(--paper-2);
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:97px;
+    z-index:4;
+    scrollbar-width:none;
+  }
+  .day-chips::-webkit-scrollbar{display:none;}
+  .day-chip{
+    flex:0 0 auto;
+    width:56px;
+    text-align:center;
+    padding:6px 0 7px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    cursor:pointer;
+    font-family:'Fraunces',serif;
+  }
+  .day-chip .d{font-size:14px;font-weight:600;line-height:1.15;white-space:nowrap;}
+  .day-chip .w{font-size:10px;color:var(--ink-soft);font-family:'Work Sans',sans-serif;margin-top:1px;}
+  .day-chip.sel{border-color:currentColor;}
+  .day-chip.city-lyon{color:var(--lyon);}
+  .day-chip.city-dijon{color:var(--dijon);}
+  .day-chip.city-paris{color:var(--paris);}
+  .day-chip.city-transit{color:var(--transit);}
+  .day-chip.sel.city-lyon{background:var(--lyon-tint);}
+  .day-chip.sel.city-dijon{background:var(--dijon-tint);}
+  .day-chip.sel.city-paris{background:var(--paris-tint);}
+  .day-chip.sel.city-transit{background:var(--transit-tint);}
+
+  .day-detail{padding:18px 16px 8px;}
+  .ticket{
+    position:relative;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    margin-bottom:18px;
+  }
+  .ticket-head{
+    padding:16px 18px;
+    color:#fff;
+    position:relative;
+  }
+  .ticket-head.city-lyon{background:var(--lyon);}
+  .ticket-head.city-dijon{background:var(--dijon);}
+  .ticket-head.city-paris{background:var(--paris);}
+  .ticket-head.city-transit{background:var(--transit);}
+  .ticket-head .day-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;}
+  .ticket-head h2{font-size:20px;margin-top:3px;}
+  .ticket-head .sub{font-size:12.5px;opacity:.9;margin-top:3px;}
+  .perf{
+    height:16px;
+    background:var(--paper);
+    position:relative;
+  }
+  .perf::before{
+    content:"";
+    position:absolute;
+    left:-8px;top:-8px;
+    width:16px;height:16px;
+    background:var(--paper-2);
+    border-radius:50%;
+  }
+  .perf::after{
+    content:"";
+    position:absolute;
+    right:-8px;top:-8px;
+    width:16px;height:16px;
+    background:var(--paper-2);
+    border-radius:50%;
+  }
+  .perf-line{
+    position:absolute;
+    left:14px;right:14px;top:8px;
+    border-top:1.5px dashed var(--line);
+  }
+  .accom-note{
+    margin:12px 18px 0;
+    padding:9px 12px;
+    background:var(--paper-2);
+    border-radius:9px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .accom-note b{color:var(--ink);}
+
+  .timeline{padding:6px 18px 16px;}
+  .item{
+    display:flex;
+    gap:10px;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .item:last-child{border-bottom:none;}
+  .item .time{
+    flex:0 0 50px;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-soft);
+    padding-top:2px;
+  }
+  .item .body{flex:1;min-width:0;}
+  .item .activity{font-size:14.5px;font-weight:500;line-height:1.4;}
+  .item .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:5px;
+    align-items:center;
+  }
+  .pill{
+    font-size:11px;
+    padding:2px 8px;
+    border-radius:20px;
+    background:var(--paper-2);
+    color:var(--ink-soft);
+  }
+  .pill.todo{background:var(--warn-tint);color:var(--warn);font-weight:600;}
+  .item .note{font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.5;}
+  .map-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:11.5px;
+    padding:4px 10px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    color:var(--ink);
+    text-decoration:none;
+    margin-top:6px;
+    background:var(--paper);
+  }
+  .map-btn:active{background:var(--paper-2);}
+  .day-budget{
+    padding:10px 18px 16px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    background:var(--paper-2);
+  }
+  .day-budget b{color:var(--ink);}
+  .day-nav{
+    display:flex;
+    justify-content:space-between;
+    padding:0 16px 20px;
+    gap:10px;
+  }
+  .day-nav button{
+    flex:1;
+    padding:11px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--paper-2);
+    font-family:'Work Sans',sans-serif;
+    font-size:13px;
+    color:var(--ink);
+  }
+  .day-nav button:disabled{opacity:.35;}
+
+  .section-pad{padding:20px 18px 8px;}
+  .section-pad h2{font-size:19px;margin-bottom:12px;}
+  .info-card{
+    background:var(--paper-2);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .info-card h3{font-size:14.5px;margin-bottom:6px;}
+  .info-card p{font-size:13px;color:var(--ink-soft);margin:2px 0;line-height:1.6;}
+  table.fare{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;}
+  table.fare th,table.fare td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);}
+  table.fare th{color:var(--ink-soft);font-weight:600;font-size:11.5px;}
+
+  .accom-card{
+    border:1px solid var(--line);
+    border-radius:12px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .accom-card .bar{height:6px;}
+  .accom-card .bar.city-lyon{background:var(--lyon);}
+  .accom-card .bar.city-dijon{background:var(--dijon);}
+  .accom-card .bar.city-paris{background:var(--paris);}
+  .accom-card .bar.city-transit{background:var(--transit);}
+  .accom-card .inner{padding:14px 16px;}
+  .accom-card .city-tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);}
+  .accom-card h3{font-size:16px;margin:3px 0 4px;}
+  .accom-card p{font-size:12.5px;color:var(--ink-soft);margin:2px 0;}
+  .accom-card .dates{font-size:12px;color:var(--ink-soft);margin-top:4px;}
+
+  .pack-group{margin-bottom:16px;}
+  .pack-group h3{font-size:14.5px;margin-bottom:8px;}
+  .pack-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13.5px;
+  }
+  .pack-item input{width:17px;height:17px;flex:0 0 17px;accent-color:var(--lyon);}
+  .pack-item.checked span{text-decoration:line-through;color:var(--ink-soft);}
+
+  .budget-row{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13px;
+  }
+  .budget-row .d{color:var(--ink-soft);font-size:12px;}
+
+  .bottom-nav{
+    position:fixed;
+    bottom:0;left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:480px;
+    display:flex;
+    background:var(--paper);
+    border-top:1px solid var(--line);
+    z-index:10;
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+  }
+  .nav-btn{
+    flex:1;
+    background:none;
+    border:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    padding:6px 2px;
+    font-family:'Work Sans',sans-serif;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    border-radius:10px;
+  }
+  .nav-btn .ic{font-size:17px;font-family:initial;line-height:1;}
+  .nav-btn.active{color:var(--lyon);background:var(--lyon-tint);}
+  .warn-banner{
+    margin:0 18px 14px;
+    padding:10px 13px;
+    background:var(--warn-tint);
+    color:var(--warn);
+    border-radius:10px;
+    font-size:12px;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <div class="eyebrow">France Journey</div>
+    <h1>里昂・第戎・巴黎</h1>
+    <div class="dates">2026/9/11（五）— 2026/9/27（日）・17天16夜・BR87 / BR88</div>
+    <div class="city-legend">
+      <span class="leg-lyon">里昂</span>
+      <span class="leg-dijon">第戎</span>
+      <span class="leg-paris">巴黎</span>
+    </div>
+  </header>
+
+  <main>
+    <section id="tab-itinerary" class="tab active">
+      <div class="day-chips" id="dayChips"></div>
+      <div class="day-detail" id="dayDetail"></div>
+    </section>
+
+    <section id="tab-transport" class="tab">
+      <div class="section-pad">
+        <h2>交通方式</h2>
+        <div class="info-card">
+          <h3>城市間高鐵（已訂票）</h3>
+          <p>CDG → Lyon Part-Dieu：9/12　TGV，約2小時</p>
+          <p>Lyon Part-Dieu → Dijon：9/14 15:16 出發</p>
+          <p>Dijon → Paris Gare de Lyon：9/17 09:32 出發</p>
+        </div>
+        <div class="info-card">
+          <h3>市區交通票價（2026年）</h3>
+          <table class="fare">
+            <tr><th>城市</th><th>單程票</th><th>備註</th></tr>
+            <tr><td>里昂 TCL</td><td>€2.10</td><td>車上購買€2.40／24hr票€6.90</td></tr>
+            <tr><td>第戎 Divia</td><td>€1.50</td><td>市區景點多可步行</td></tr>
+            <tr><td>巴黎地鐵/RER</td><td>€2.55</td><td>2小時內可轉乘</td></tr>
+            <tr><td>巴黎公車/電車</td><td>€2.05</td><td>90分鐘內可轉乘</td></tr>
+            <tr><td>巴黎機場票</td><td>€14</td><td>CDG／Orly 專用</td></tr>
+          </table>
+        </div>
+        <div class="info-card">
+          <h3>行程原則</h3>
+          <p>混合式選擇交通工具；風景優美路段優先步行，步行超過30分鐘則搭乘大眾運輸。</p>
+          <p>9/16 酒莊一日遊為包套行程，交通已含在內。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-accommodation" class="tab">
+      <div class="section-pad">
+        <h2>住宿資訊</h2>
+        <div class="accom-card">
+          <div class="bar city-lyon"></div>
+          <div class="inner">
+            <div class="city-tag">Lyon</div>
+            <h3>里昂 bnb</h3>
+            <p>5 bis Rue du 24 Février 1848, 69100 Villeurbanne, France</p>
+            <div class="dates">入住 9/12 15:00　·　退房 9/14 11:00</div>
+            <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=5+bis+Rue+du+24+Fevrier+1848+69100+Villeurbanne+France">在 Google Maps 開啟導航</a>
+          </div>
+        </div>
+        <div class="accom-card">
+          <div class="bar city-dijon"></div>
+          <div class="inner">
+            <div class="city-tag">Dijon</div>
+            <h3>第戎 bnb</h3>
+            <p>5 Rue du Chapeau Rouge, 21000 Dijon, France</p>
+            <div class="dates">入住 9/14 16:00　·　退房 9/17 11:00</div>
+            <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=5+Rue+du+Chapeau+Rouge+21000+Dijon+France">在 Google Maps 開啟導航</a>
+          </div>
+        </div>
+        <div class="accom-card">
+          <div class="bar city-paris"></div>
+          <div class="inner">
+            <div class="city-tag">Paris</div>
+            <h3>巴黎 bnb</h3>
+            <p>Rue du Faubourg Saint-Antoine, 75011 Paris, France</p>
+            <div class="dates">入住 9/17 15:00　·　退房 9/26 11:00</div>
+            <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Rue+du+Faubourg+Saint-Antoine+75011+Paris+France">在 Google Maps 開啟導航</a>
+          </div>
+        </div>
+        <div class="accom-card">
+          <div class="bar city-transit"></div>
+          <div class="inner">
+            <div class="city-tag">Airport</div>
+            <h3>Holiday Inn Express Paris - CDG Airport</h3>
+            <p>5 Rue Du Voyageur, 95700 Roissy-en-France</p>
+            <div class="dates">入住 9/26 約18:00後　·　退房 9/27 前往機場</div>
+            <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Holiday+Inn+Express+Paris+CDG+Airport+5+Rue+Du+Voyageur+Roissy-en-France">在 Google Maps 開啟導航</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-packing" class="tab">
+      <div class="section-pad">
+        <h2>行前準備 / 行李清單</h2>
+        <div id="packContainer"></div>
+      </div>
+    </section>
+
+    <section id="tab-budget" class="tab">
+      <div class="section-pad">
+        <h2>每日預估花費</h2>
+        <div id="budgetList"></div>
+        <h2 style="margin-top:22px;">實用資訊</h2>
+        <div class="info-card">
+          <h3>網路</h3>
+          <p>建議抵達 CDG 後購買歐洲/法國 eSIM，或出發前先線上購買落地即用。</p>
+        </div>
+        <div class="info-card">
+          <h3>換匯</h3>
+          <p>台灣先兌換部分歐元現金（市集、小費、寄物櫃常需現金），其餘以信用卡支付為主。</p>
+        </div>
+        <div class="info-card">
+          <h3>保險</h3>
+          <p>出發前確認信用卡附贈的海外旅遊平安險/不便險保障範圍，不足可另外加保。</p>
+        </div>
+        <div class="info-card">
+          <h3>緊急聯絡</h3>
+          <p>法國：17（警察）／15（救護車）／112（歐盟通用）</p>
+          <p>建議出發前查好駐法國台北代表處緊急聯絡電話並存入手機。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-tab="itinerary"><span class="ic">🗓️</span>每日行程</button>
+    <button class="nav-btn" data-tab="transport"><span class="ic">🚆</span>交通</button>
+    <button class="nav-btn" data-tab="accommodation"><span class="ic">🛏️</span>住宿</button>
+    <button class="nav-btn" data-tab="packing"><span class="ic">🧳</span>行李</button>
+    <button class="nav-btn" data-tab="budget"><span class="ic">💶</span>預算</button>
+  </nav>
+</div>
+
+<script>
+function mapUrl(q){return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);}
+function dirUrl(origin,dest,transport){
+  let mode = "transit";
+  if(transport && transport.indexOf("步行")!==-1) mode = "walking";
+  return "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(dest) + "&travelmode=" + mode;
+}
+
+const days = [
+{n:1,date:"9/11",wd:"五",city:"transit",title:"台北 → 巴黎",sub:"長榮 BR87",accom:"機上過夜",budget:"機票已購，不列入每日花費",items:[
+  {time:"20:30",a:"桃園機場2航廈報到",note:"BR87"},
+  {time:"23:30",a:"TPE 出發",note:"長榮航空 BR87"}
+]},
+{n:2,date:"9/12",wd:"六",city:"lyon",title:"抵達巴黎 → TGV 里昂",sub:"入住里昂",accom:"Lyon bnb｜5 bis Rue du 24 Février 1848, 69100 Villeurbanne",budget:"交通 €5-10 + 晚餐",items:[
+  {time:"07:55",a:"CDG 戴高樂機場抵達"},
+  {time:"—",a:"CDG T1 → T2 轉機至 TGV 車站",note:"依機場指標步行/接駁"},
+  {time:"11:58",a:"TGV 至 Lyon Part-Dieu",transport:"高鐵已訂票",note:"約2小時",map:"Gare de Lyon Part-Dieu"},
+  {time:"14:00",a:"bnb 15:00可入住（先寄放行李）",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"},
+  {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"步行約15分鐘",map:"Parc de la Tete d'Or Lyon"},
+  {time:"傍晚",a:"河岸走走 → 證交所宮 → 里昂市政廳",transport:"步行約34分鐘",map:"Hotel de Ville Lyon"},
+  {time:"19:30",a:"晚餐 Bouchon Tupin",tag:"已訂位",map:"Bouchon Tupin Lyon"}
+]},
+{n:3,date:"9/13",wd:"日",city:"lyon",title:"里昂舊城區一日遊",sub:"傳統小酒館 Bouchon",accom:"Lyon bnb",budget:"交通 €10-15（含爬坡搭車）+ 餐飲",items:[
+  {time:"早上",a:"中央市場 Les Halles de Lyon Paul Bocuse",map:"Les Halles de Lyon Paul Bocuse"},
+  {time:"—",a:"富維耶聖母院、古羅馬劇場",transport:"建議搭纜車上山（坡度大，不建議純走路）",note:"TCL €2.10",map:"Basilique Notre-Dame de Fourviere"},
+  {time:"—",a:"買甜點 Grains de Sucres",transport:"步行",map:"Grains de Sucres Lyon"},
+  {time:"—",a:"Jardin des Curiosités",transport:"步行順古爾吉永坡下山到舊城區 traboules",map:"Jardin des Curiosites Lyon"},
+  {time:"—",a:"午/晚餐 Fiston - Bouchon Lyonnais",transport:"步行",note:"假日現場候位，建議提早到",map:"Fiston Bouchon Lyonnais Lyon"},
+  {time:"—",a:"Gelato：Terre Adélice",transport:"步行",map:"Terre Adelice Lyon"},
+  {time:"—",a:"紅十字山區 Croix-Rousse",transport:"建議搭纜車/地鐵上山（坡度大）",note:"TCL €2.10",map:"Croix-Rousse Lyon"}
+]},
+{n:4,date:"9/14",wd:"一",city:"dijon",title:"里昂 → 第戎",sub:"入住第戎",accom:"Dijon bnb｜5 Rue du Chapeau Rouge, 21000 Dijon",budget:"火車已付 + 餐飲",items:[
+  {time:"11:00",a:"bnb check out"},
+  {time:"—",a:"寄放行李",note:"建議請 bnb 房東協助，或至 Part-Dieu 車站置物櫃"},
+  {time:"12:00-14:00",a:"午餐 Daniel et Denise Créqui",tag:"待訂位",map:"Daniel et Denise Crequi Lyon"},
+  {time:"15:16",a:"Lyon Part-Dieu → Dijon",transport:"高鐵已訂票",note:"約1.5小時",map:"Gare de Dijon"},
+  {time:"17:11",a:"bnb 16:00後可入住",map:"5 Rue du Chapeau Rouge 21000 Dijon"},
+  {time:"18:00",a:"聖母院（用左手摸貓頭鷹）",transport:"步行",map:"Notre-Dame de Dijon"},
+  {time:"—",a:"Hôtel de la Croix-de-Fer",transport:"步行",note:"特色建築，聖母院周遭看貓頭鷹雕刻",map:"Hotel de la Croix-de-Fer Dijon"},
+  {time:"19:00",a:"晚餐 L'Bout D' La Rue",transport:"步行",note:"暫定，也可不吃",map:"L'Bout D' La Rue Dijon"}
+]},
+{n:5,date:"9/15",wd:"二",city:"dijon",title:"第戎市區觀光",sub:"貓頭鷹步道",accom:"Dijon bnb",budget:"步道免費 + 餐飲 + 少量購物",items:[
+  {time:"09:00",a:"Halles centrales 中央市場（7-13點）",transport:"步行",note:"推薦 Jambon persillé 歐芹火腿凍",map:"Halles de Dijon"},
+  {time:"09:00",a:"貓頭鷹步道 Parcours de la Chouette（全程4-5公里）",transport:"步行全程",map:"Parcours de la Chouette Dijon"},
+  {time:"—",a:"Maille Dijon mustard 芥末店觀光",transport:"步行（步道路線上）",map:"Maille Boutique Dijon"},
+  {time:"19:30-21:00",a:"晚餐 SO",tag:"待訂位 FB粉專",map:"SO restaurant Dijon"}
+]},
+{n:6,date:"9/16",wd:"三",city:"dijon",title:"勃根地酒莊一日遊",sub:"包套行程",accom:"Dijon bnb",budget:"酒莊行程費用（待訂）+ 晚餐",items:[
+  {time:"09:45",a:"酒莊一日遊出發",transport:"包套行程，交通已含",tag:"待訂（淳）",note:"建議確認接送地點/時間、含餐與否、品飲數量"},
+  {time:"17:30",a:"一日結束回第戎"},
+  {time:"晚上",a:"晚餐 Le Bouchon Du Palais",transport:"步行（這天較累，建議就近）",note:"推薦紅酒燉牛肉",map:"Le Bouchon du Palais Dijon"}
+]},
+{n:7,date:"9/17",wd:"四",city:"paris",title:"第戎 → 巴黎",sub:"瑪黑區・入住巴黎",accom:"Paris bnb｜Rue du Faubourg Saint-Antoine, 75011 Paris",budget:"交通 €10-15 + 博物館 + 餐飲",items:[
+  {time:"09:32",a:"Dijon → Paris Gare de Lyon",transport:"高鐵已訂票",note:"約1.5小時",map:"Gare de Lyon Paris"},
+  {time:"11:08",a:"寄放行李",tag:"待訂",note:"可在bnb預約，或車站Hall 3地下一樓靠近Rue de Bercy出口"},
+  {time:"—",a:"巴士底市集",transport:"步行或地鐵€2.55",note:"7-14點，中午逐漸收攤",map:"Marche Bastille Paris"},
+  {time:"10-18",a:"Carnavalet Museum 卡納瓦雷博物館",transport:"地鐵",note:"一休館，免費預約",map:"Musee Carnavalet Paris"},
+  {time:"—",a:"瑪黑區散步走（選一間咖啡廳）",transport:"步行",map:"Le Marais Paris"},
+  {time:"8-18",a:"麵包 Petite Ile boulangerie",transport:"步行",map:"Petite Ile boulangerie Paris"},
+  {time:"—",a:"甜點 Brigat'",transport:"步行",note:"外帶去廣場，需自備餐具",map:"Brigat patisserie Paris"},
+  {time:"—",a:"孚日廣場",transport:"步行",map:"Place des Vosges Paris"},
+  {time:"15:00",a:"bnb check in",note:"確認Uber/機場接送價格",map:"Rue du Faubourg Saint-Antoine 75011 Paris"},
+  {time:"18-22",a:"晚餐 VIET NAM IMPRESSIONS",map:"Viet Nam Impressions Paris"}
+]},
+{n:8,date:"9/18",wd:"五",city:"paris",title:"莫內美術館 → 鐵塔 → 市中心",sub:"⚠️動線較遠，注意銜接時間",accom:"Paris bnb",budget:"門票€29 + 交通€15-20 + 餐飲",items:[
+  {time:"—",a:"早餐 Café Bibonne",map:"Cafe Bibonne Paris"},
+  {time:"10-18",a:"Musée Marmottan Monet",transport:"地鐵9號線 La Muette站",note:"二-六8:30-16:00為Brunch時段，門票€14",map:"Musee Marmottan Monet Paris"},
+  {time:"—",a:"比爾哈克姆橋",transport:"地鐵6號線",map:"Pont de Bir-Hakeim Paris"},
+  {time:"—",a:"巴黎鐵塔 photo spot",transport:"步行（鄰近上一站）",map:"Trocadero Eiffel Tower photo spot"},
+  {time:"—",a:"甜點 Toshiya Takatsuka",transport:"地鐵",map:"Patisserie Toshiya Takatsuka Paris"},
+  {time:"—",a:"戰神廣場",transport:"步行",map:"Champ de Mars Paris"},
+  {time:"11-19",a:"Bourse de Commerce - Pinault Collection",transport:"地鐵換乘至1區",note:"週二休館，門票€15官網已購",map:"Bourse de Commerce Pinault Collection Paris"},
+  {time:"—",a:"回家休息"},
+  {time:"18:30-23:30",a:"jip.paris",tag:"待訂位",map:"jip paris restaurant"}
+]},
+{n:9,date:"9/19",wd:"六",city:"paris",title:"拉法葉百貨 → 蒙馬特",sub:"聖心堂・愛牆",accom:"Paris bnb",budget:"交通€10 + 餐飲 + 購物",items:[
+  {time:"10:00",a:"Galeries Lafayette Haussmann",transport:"地鐵",note:"10:00營業",map:"Galeries Lafayette Haussmann Paris"},
+  {time:"12:00",a:"午餐 Restaurant Panurge",tag:"待訂位",map:"Restaurant Panurge Paris"},
+  {time:"—",a:"麵包 Mamiche",transport:"步行",map:"Mamiche boulangerie Paris"},
+  {time:"—",a:"愛牆 Le mur des je t'aime",transport:"步行/地鐵",map:"Le mur des je t'aime Paris"},
+  {time:"—",a:"聖心堂",transport:"步行",map:"Basilique du Sacre-Coeur Paris"},
+  {time:"—",a:"購物 A.P.C. Surplus",transport:"步行/地鐵",map:"A.P.C. Surplus Paris"}
+]},
+{n:10,date:"9/20",wd:"日",city:"paris",title:"跳蚤市場 → 盧森堡公園",sub:"古董市集",accom:"Paris bnb",budget:"交通€10 + 午餐約€40(2人) + 購物",items:[
+  {time:"08:30",a:"Porte de Vanves 跳蚤市場",transport:"地鐵13號線",map:"Marche aux puces de la Porte de Vanves"},
+  {time:"—",a:"盧森堡公園",transport:"地鐵",map:"Jardin du Luxembourg Paris"},
+  {time:"—",a:"午餐 Le Petit Bal Perdu",transport:"步行",note:"套餐€19/€25，現場候位",map:"Le Petit Bal Perdu Paris"},
+  {time:"—",a:"甜點 Carl Marletti",transport:"步行",map:"Patisserie Carl Marletti Paris"},
+  {time:"—",a:"瑪黑區購物",transport:"地鐵",map:"Le Marais shopping Paris"}
+]},
+{n:11,date:"9/21",wd:"一",city:"paris",title:"羅浮宮 → 凱旋門",sub:"日落登頂",accom:"Paris bnb",budget:"交通€10 + 凱旋門門票 + 購物 + 簡便晚餐",items:[
+  {time:"09:00",a:"羅浮宮",transport:"地鐵1/7號線 Palais Royal Musée du Louvre 6號出口",tag:"已預約",map:"Musee du Louvre Paris"},
+  {time:"—",a:"可麗餅 Café Courtial",transport:"步行",map:"Cafe Courtial la Crepe Paris"},
+  {time:"—",a:"莎瑪麗丹百貨 La Samaritaine（Jellycat）",transport:"步行",map:"La Samaritaine Paris"},
+  {time:"—",a:"皇家宮殿花園",transport:"步行",map:"Jardin du Palais Royal Paris"},
+  {time:"—",a:"香榭麗舍大道",transport:"地鐵1號線",map:"Avenue des Champs-Elysees Paris"},
+  {time:"19:30-20:30",a:"凱旋門登頂",transport:"步行（與香榭麗舍相接）",note:"推薦日落，前半小時到一小時登頂",map:"Arc de Triomphe Paris"},
+  {time:"—",a:"Picard 冷凍食品",note:"家附近",map:"Picard surgeles Paris"}
+]},
+{n:12,date:"9/22",wd:"二",city:"paris",title:"聖徒禮拜堂 → 巴黎聖母院",sub:"西堤島",accom:"Paris bnb",budget:"門票 + 午餐 + 晚餐（生蠔較高）",items:[
+  {time:"09:30-10:20",a:"聖徒禮拜堂 Sainte-Chapelle",note:"1-1.5hr，已預約",tag:"已預約",map:"Sainte-Chapelle Paris"},
+  {time:"10:30-12:15",a:"巴黎古監獄 Conciergerie",note:"1-1.5hr",map:"Conciergerie Paris"},
+  {time:"12:00-15:00",a:"午餐 Les Deux Colombes",map:"Les Deux Colombes Paris"},
+  {time:"14:30",a:"巴黎聖母院登頂",note:"1.5-2hr",map:"Notre-Dame de Paris"},
+  {time:"—",a:"晚餐 Ostra",note:"生蠔",map:"Ostra restaurant Paris"},
+  {time:"—",a:"冰淇淋 Berthillon",map:"Berthillon Paris"}
+]},
+{n:13,date:"9/23",wd:"三",city:"paris",title:"凡爾賽宮一日遊",sub:"⚠️行程滿，體力消耗大",accom:"Paris bnb",budget:"凡爾賽宮票 + RER交通€10-15 + 晚餐",items:[
+  {time:"08:00",a:"bnb 至凡爾賽宮約75分鐘",transport:"步行至Metro B Ledru-Rollin→13站至軍榮院站→轉RER C 11站至Versailles",note:"需另外購買點對點RER票"},
+  {time:"09:30-14:30",a:"凡爾賽宮",note:"宮殿內部4-5小時，9:00-17:30，現場語音導覽€5",map:"Chateau de Versailles"},
+  {time:"15:00-16:00",a:"凡爾賽宮搭RER C至軍榮院站",transport:"RER C"},
+  {time:"—",a:"晚餐 Les Cocottes",map:"Les Cocottes Paris"},
+  {time:"—",a:"戰神廣場旁 Place du Trocadero",map:"Place du Trocadero Paris"},
+  {time:"晚上",a:"巴黎鐵塔河畔夜景",transport:"步行",map:"Eiffel Tower Paris"}
+]},
+{n:14,date:"9/24",wd:"四",city:"paris",title:"橘園 → 羅丹 → 奧賽美術館",sub:"印象派巡禮",accom:"Paris bnb",budget:"門票已購 + 交通€10 + 餐飲",items:[
+  {time:"09:00",a:"橘園美術館",note:"9:00-18:00，1-1.5hr，已預約",tag:"已預約",map:"Musee de l'Orangerie Paris"},
+  {time:"—",a:"杜樂麗花園",transport:"步行",map:"Jardin des Tuileries Paris"},
+  {time:"—",a:"羅丹美術館",note:"10:00-18:30，已預約",tag:"已預約",map:"Musee Rodin Paris"},
+  {time:"—",a:"午餐 Da Rocco",note:"帕尼尼",map:"Da Rocco Paris"},
+  {time:"18:00",a:"奧賽美術館",note:"入場排A2區，已預約",tag:"已預約",map:"Musee d'Orsay Paris"}
+]},
+{n:15,date:"9/25",wd:"五",city:"paris",title:"自由活動＋收行李",sub:"輕鬆的一天",accom:"Paris bnb",budget:"餐飲為主",items:[
+  {time:"—",a:"麵包 La Panifacture",transport:"步行",map:"La Panifacture Paris"},
+  {time:"—",a:"SUGO pasta fresca - Chateau d'Eau",transport:"步行",map:"SUGO pasta fresca Chateau d'Eau Paris"},
+  {time:"—",a:"收行李"}
+]},
+{n:16,date:"9/26",wd:"六",city:"transit",title:"巴黎 → 機場旅館",sub:"最後一天",accom:"Holiday Inn Express Paris - CDG",budget:"Uber車資 + 行李寄放 + 餐飲",items:[
+  {time:"11:00",a:"bnb check out"},
+  {time:"—",a:"寄放行李",note:"可在bnb預約，或車站Hall 3地下一樓靠近Rue de Bercy出口"},
+  {time:"—",a:"甜點 Tapisserie - Charonne",transport:"步行",map:"Tapisserie Charonne Paris"},
+  {time:"18:00",a:"叫 Uber 去機場旅館",transport:"Uber",note:"請提前確認Uber/機場接送價格"},
+  {time:"—",a:"Holiday Inn Express Paris - CDG Airport",note:"15:00後可入住",map:"Holiday Inn Express Paris CDG Airport 5 Rue Du Voyageur Roissy-en-France"}
+]},
+{n:17,date:"9/27",wd:"日",city:"transit",title:"巴黎 → 台北",sub:"長榮 BR88",accom:"—",budget:"—",items:[
+  {time:"07:20",a:"CDG 抵達機場",note:"BR88報到"},
+  {time:"11:20",a:"CDG 起飛",note:"長榮航空 BR88"}
+]}
+];
+
+const cityLabel = {lyon:"Lyon",dijon:"Dijon",paris:"Paris",transit:"Transit"};
+let currentDay = 1;
+
+const LYON_BNB = "5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne France";
+const DIJON_BNB = "5 Rue du Chapeau Rouge 21000 Dijon France";
+const PARIS_BNB = "Rue du Faubourg Saint-Antoine 75011 Paris France";
+const AIRPORT_HOTEL = "Holiday Inn Express Paris CDG Airport 5 Rue Du Voyageur Roissy-en-France";
+const accomMapByDay = {2:LYON_BNB,3:LYON_BNB,4:DIJON_BNB,5:DIJON_BNB,6:DIJON_BNB,7:PARIS_BNB,8:PARIS_BNB,9:PARIS_BNB,10:PARIS_BNB,11:PARIS_BNB,12:PARIS_BNB,13:PARIS_BNB,14:PARIS_BNB,15:PARIS_BNB,16:AIRPORT_HOTEL};
+
+(function attachOrigins(){
+  let prev = null;
+  days.forEach(d=>{
+    d.items.forEach(it=>{
+      if(it.map){
+        it.origin = prev;
+        prev = it.map;
+      }
+    });
+    const nightAccom = accomMapByDay[d.n];
+    if(nightAccom) prev = nightAccom;
+  });
+})();
+
+function renderChips(){
+  const wrap = document.getElementById('dayChips');
+  wrap.innerHTML = days.map(d => `
+    <div class="day-chip city-${d.city} ${d.n===currentDay?'sel':''}" data-day="${d.n}">
+      <div class="d">${d.date}</div>
+      <div class="w">${d.wd}</div>
+    </div>
+  `).join('');
+  wrap.querySelectorAll('.day-chip').forEach(el=>{
+    el.addEventListener('click', ()=>{ currentDay = parseInt(el.dataset.day); renderChips(); renderDay(); });
+  });
+}
+
+function renderDay(){
+  const d = days.find(x=>x.n===currentDay);
+  const el = document.getElementById('dayDetail');
+  const itemsHtml = d.items.map(it => `
+    <div class="item">
+      <div class="time">${it.time}</div>
+      <div class="body">
+        <div class="activity">${it.a}</div>
+        <div class="meta">
+          ${it.transport ? `<span class="pill">${it.transport}</span>`:''}
+          ${it.tag ? `<span class="pill todo">${it.tag}</span>`:''}
+        </div>
+        ${it.note ? `<div class="note">${it.note}</div>`:''}
+        ${it.map ? `<a class="map-btn" target="_blank" href="${it.origin ? dirUrl(it.origin, it.map, it.transport) : mapUrl(it.map)}">開啟導航</a>`:''}
+      </div>
+    </div>
+  `).join('');
+
+  el.innerHTML = `
+    <div class="ticket">
+      <div class="ticket-head city-${d.city}">
+        <div class="day-label">Day ${d.n} ・ ${cityLabel[d.city]}</div>
+        <h2>${d.date}（${d.wd}）${d.title}</h2>
+        <div class="sub">${d.sub}</div>
+      </div>
+      <div class="perf"><div class="perf-line"></div></div>
+      ${d.accom ? `<div class="accom-note"><b>住宿：</b>${d.accom}</div>` : ''}
+      <div class="timeline">${itemsHtml}</div>
+      <div class="day-budget"><b>當日預估花費：</b>${d.budget}</div>
+    </div>
+    <div class="day-nav">
+      <button id="prevDay" ${currentDay===1?'disabled':''}>← 前一天</button>
+      <button id="nextDay" ${currentDay===17?'disabled':''}>後一天 →</button>
+    </div>
+  `;
+  document.getElementById('prevDay').addEventListener('click', ()=>{ if(currentDay>1){currentDay--; renderChips(); renderDay(); scrollDayIntoView();} });
+  document.getElementById('nextDay').addEventListener('click', ()=>{ if(currentDay<17){currentDay++; renderChips(); renderDay(); scrollDayIntoView();} });
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+function scrollDayIntoView(){
+  const sel = document.querySelector('.day-chip.sel');
+  if(sel) sel.scrollIntoView({inline:'center',behavior:'smooth'});
+}
+
+const packing = [
+  {group:"證件與文件",items:["護照（效期6個月以上）","機票、TGV車票電子憑證","各項訂位確認信（餐廳/bnb/酒莊行程）","旅遊保險保單","信用卡（建議2張以上）","國際駕照（如自駕需要）"]},
+  {group:"電子用品",items:["歐規轉接頭（Type E/F，230V）","行動電源","網卡/SIM卡或漫遊方案","相機/備用記憶卡"]},
+  {group:"衣物（9月法國約12-22°C）",items:["洋蔥式穿搭：短袖+薄外套/風衣","走路鞋（步道/美術館步行量大）","一件較正式的衣服","雨具"]},
+  {group:"其他",items:["常備藥品（腸胃藥/感冒藥/止痛藥）","環保餐具（甜點外帶需自備）","購物袋/摺疊袋","小面額歐元現金"]}
+];
+
+function renderPacking(){
+  const wrap = document.getElementById('packContainer');
+  wrap.innerHTML = packing.map((g,gi)=>`
+    <div class="pack-group">
+      <h3>${g.group}</h3>
+      ${g.items.map((it,ii)=>`
+        <label class="pack-item" id="pack-${gi}-${ii}">
+          <input type="checkbox">
+          <span>${it}</span>
+        </label>
+      `).join('')}
+    </div>
+  `).join('');
+  wrap.querySelectorAll('.pack-item').forEach(el=>{
+    const cb = el.querySelector('input');
+    cb.addEventListener('change', ()=>{ el.classList.toggle('checked', cb.checked); });
+  });
+}
+
+function renderBudget(){
+  const wrap = document.getElementById('budgetList');
+  wrap.innerHTML = days.map(d=>`
+    <div class="budget-row">
+      <div><b>Day ${d.n}</b> ${d.date}（${d.wd}） <span class="d">${cityLabel[d.city]}</span></div>
+      <div class="d" style="text-align:right;max-width:55%;">${d.budget}</div>
+    </div>
+  `).join('');
+}
+
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+});
+
+renderChips();
+renderDay();
+renderPacking();
+renderBudget();
+</script>
+</body>
+</html>
