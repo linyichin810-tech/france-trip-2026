@@ -103,7 +103,7 @@
     background:var(--paper-2);
     border-bottom:1px solid var(--line);
     position:sticky;
-    top:97px;
+    top:0;
     z-index:4;
     scrollbar-width:none;
   }
@@ -429,9 +429,15 @@
           <div class="inner">
             <div class="city-tag">Paris</div>
             <h3>巴黎 bnb</h3>
-            <p>Rue du Faubourg Saint-Antoine, 75011 Paris, France</p>
+            <p>151 Rue du Faubourg Saint-Antoine, 75011 Paris, France</p>
             <div class="dates">入住 9/17 15:00　·　退房 9/26 11:00</div>
-            <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Rue+du+Faubourg+Saint-Antoine+75011+Paris+France">在 Google Maps 開啟導航</a>
+            <div class="accom-note" style="margin:10px 0 0;">
+              <b>入住說明：</b><br>
+              從街道進入建築物需經由自動門廊，密碼為 <b>12A45</b><br>
+              公寓位於中庭底端的 D 棟；D 棟門禁密碼為 <b>74b57</b><br>
+              公寓位於 2 樓（法式標示為1樓，即台灣的2樓），可搭電梯或走樓梯上樓
+            </div>
+            <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=151+Rue+du+Faubourg+Saint-Antoine+75011+Paris+France">在 Google Maps 開啟導航</a>
           </div>
         </div>
         <div class="accom-card">
@@ -507,7 +513,7 @@ const days = [
   {time:"—",a:"CDG T1 → T2 轉機至 TGV 車站",note:"依機場指標步行/接駁"},
   {time:"11:58",a:"TGV 至 Lyon Part-Dieu",transport:"高鐵已訂票",note:"約2小時",map:"Gare de Lyon Part-Dieu"},
   {time:"14:00",a:"bnb 15:00可入住（先寄放行李）",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"},
-  {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"步行約15分鐘",map:"Parc de la Tete d'Or Lyon"},
+  {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"地鐵A線 République→Masséna站，再步行約5分鐘入園",note:"實際步行距離超過30分鐘（約3公里），建議搭地鐵",map:"Parc de la Tete d'Or Lyon"},
   {time:"傍晚",a:"河岸走走 → 證交所宮 → 里昂市政廳",transport:"步行約34分鐘",map:"Hotel de Ville Lyon"},
   {time:"19:30",a:"晚餐 Bouchon Tupin",tag:"已訂位",map:"Bouchon Tupin Lyon"}
 ]},
@@ -532,7 +538,7 @@ const days = [
 ]},
 {n:5,date:"9/15",wd:"二",city:"dijon",title:"第戎市區觀光",sub:"貓頭鷹步道",accom:"Dijon bnb",budget:"步道免費 + 餐飲 + 少量購物",items:[
   {time:"09:00",a:"Halles centrales 中央市場（7-13點）",transport:"步行",note:"推薦 Jambon persillé 歐芹火腿凍",map:"Halles de Dijon"},
-  {time:"09:00",a:"貓頭鷹步道 Parcours de la Chouette（全程4-5公里）",transport:"步行全程",map:"Parcours de la Chouette Dijon"},
+  {time:"09:00",a:"貓頭鷹步道 Parcours de la Chouette（觀光路線，非單一地點，全程約3公里/22站，約1小時）",transport:"步行全程，沿地面銅製貓頭鷹箭頭標誌走",note:"主要站點：① Rue des Forges古宅群 ② 第戎聖母院（摸貓頭鷹許願）③ 勃根地公爵宮 Palais des Ducs ④ 解放廣場 Place de la Libération ⑤ 聖米歇爾教堂/Musée Rude ⑥ Square des Ducs ⑦ Grangier廣場/郵政總局 ⑧ 達西花園 Jardin Darcy ⑨ 聖伯尼涅大教堂 ⑩ 美術館 ⑪ 聖讓教堂 ⑫ 聖菲利貝爾教堂　（2011年後新增延伸迴圈：讓－雅克盧梭區/古董商街、摩西之井與尚莫爾修道院、軍械庫公園）",map:"Office de Tourisme Dijon"},
   {time:"—",a:"Maille Dijon mustard 芥末店觀光",transport:"步行（步道路線上）",map:"Maille Boutique Dijon"},
   {time:"19:30-21:00",a:"晚餐 SO",tag:"待訂位 FB粉專",map:"SO restaurant Dijon"}
 ]},
@@ -541,7 +547,7 @@ const days = [
   {time:"17:30",a:"一日結束回第戎"},
   {time:"晚上",a:"晚餐 Le Bouchon Du Palais",transport:"步行（這天較累，建議就近）",note:"推薦紅酒燉牛肉",map:"Le Bouchon du Palais Dijon"}
 ]},
-{n:7,date:"9/17",wd:"四",city:"paris",title:"第戎 → 巴黎",sub:"瑪黑區・入住巴黎",accom:"Paris bnb｜Rue du Faubourg Saint-Antoine, 75011 Paris",budget:"交通 €10-15 + 博物館 + 餐飲",items:[
+{n:7,date:"9/17",wd:"四",city:"paris",title:"第戎 → 巴黎",sub:"瑪黑區・入住巴黎",accom:"Paris bnb｜151 Rue du Faubourg Saint-Antoine, 75011 Paris",budget:"交通 €10-15 + 博物館 + 餐飲",items:[
   {time:"09:32",a:"Dijon → Paris Gare de Lyon",transport:"高鐵已訂票",note:"約1.5小時",map:"Gare de Lyon Paris"},
   {time:"11:08",a:"寄放行李",tag:"待訂",note:"可在bnb預約，或車站Hall 3地下一樓靠近Rue de Bercy出口"},
   {time:"—",a:"巴士底市集",transport:"步行或地鐵€2.55",note:"7-14點，中午逐漸收攤",map:"Marche Bastille Paris"},
@@ -550,7 +556,7 @@ const days = [
   {time:"8-18",a:"麵包 Petite Ile boulangerie",transport:"步行",map:"Petite Ile boulangerie Paris"},
   {time:"—",a:"甜點 Brigat'",transport:"步行",note:"外帶去廣場，需自備餐具",map:"Brigat patisserie Paris"},
   {time:"—",a:"孚日廣場",transport:"步行",map:"Place des Vosges Paris"},
-  {time:"15:00",a:"bnb check in",note:"確認Uber/機場接送價格",map:"Rue du Faubourg Saint-Antoine 75011 Paris"},
+  {time:"15:00",a:"bnb check in",note:"確認Uber/機場接送價格",map:"151 Rue du Faubourg Saint-Antoine 75011 Paris"},
   {time:"18-22",a:"晚餐 VIET NAM IMPRESSIONS",map:"Viet Nam Impressions Paris"}
 ]},
 {n:8,date:"9/18",wd:"五",city:"paris",title:"莫內美術館 → 鐵塔 → 市中心",sub:"⚠️動線較遠，注意銜接時間",accom:"Paris bnb",budget:"門票€29 + 交通€15-20 + 餐飲",items:[
@@ -634,7 +640,7 @@ let currentDay = 1;
 
 const LYON_BNB = "5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne France";
 const DIJON_BNB = "5 Rue du Chapeau Rouge 21000 Dijon France";
-const PARIS_BNB = "Rue du Faubourg Saint-Antoine 75011 Paris France";
+const PARIS_BNB = "151 Rue du Faubourg Saint-Antoine 75011 Paris France";
 const AIRPORT_HOTEL = "Holiday Inn Express Paris CDG Airport 5 Rue Du Voyageur Roissy-en-France";
 const accomMapByDay = {2:LYON_BNB,3:LYON_BNB,4:DIJON_BNB,5:DIJON_BNB,6:DIJON_BNB,7:PARIS_BNB,8:PARIS_BNB,9:PARIS_BNB,10:PARIS_BNB,11:PARIS_BNB,12:PARIS_BNB,13:PARIS_BNB,14:PARIS_BNB,15:PARIS_BNB,16:AIRPORT_HOTEL};
 
@@ -760,6 +766,18 @@ renderChips();
 renderDay();
 renderPacking();
 renderBudget();
+
+function syncStickyOffset(){
+  const headerEl = document.querySelector('.app-header');
+  const chipsEl = document.querySelector('.day-chips');
+  if(headerEl && chipsEl){ chipsEl.style.top = headerEl.offsetHeight + 'px'; }
+}
+syncStickyOffset();
+window.addEventListener('resize', syncStickyOffset);
+window.addEventListener('load', syncStickyOffset);
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(syncStickyOffset);
+}
 </script>
 </body>
 </html>
