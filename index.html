@@ -32,16 +32,13 @@
     background:var(--paper);
     color:var(--ink);
     font-family:'Work Sans',sans-serif;
-    display:flex;
-    justify-content:center;
   }
   .app{
     width:100%;
     max-width:480px;
     min-height:100vh;
+    margin:0 auto;
     background:var(--paper);
-    display:flex;
-    flex-direction:column;
     position:relative;
   }
   h1,h2,h3{font-family:'Fraunces',serif;margin:0;}
@@ -88,9 +85,7 @@
   .leg-paris{background:var(--paris-tint);color:var(--paris);}
 
   main{
-    flex:1;
     padding-bottom:88px;
-    overflow-x:hidden;
   }
   .tab{display:none;}
   .tab.active{display:block;}
@@ -292,18 +287,62 @@
   .accom-card p{font-size:12.5px;color:var(--ink-soft);margin:2px 0;}
   .accom-card .dates{font-size:12px;color:var(--ink-soft);margin-top:4px;}
 
-  .pack-group{margin-bottom:16px;}
+  .pack-group{margin-bottom:18px;}
   .pack-group h3{font-size:14.5px;margin-bottom:8px;}
   .pack-item{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
     padding:8px 0;
     border-bottom:1px solid var(--line);
     font-size:13.5px;
   }
-  .pack-item input{width:17px;height:17px;flex:0 0 17px;accent-color:var(--lyon);}
-  .pack-item.checked span{text-decoration:line-through;color:var(--ink-soft);}
+  .pack-item input[type="checkbox"]{width:17px;height:17px;flex:0 0 17px;accent-color:var(--lyon);}
+  .pack-item.checked .pack-name{text-decoration:line-through;color:var(--ink-soft);}
+  .pack-name{flex:1;min-width:0;}
+  .pack-qty,.pack-unit{
+    width:44px;
+    padding:5px 4px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    font-size:12px;
+    background:var(--paper);
+    text-align:center;
+    font-family:'Work Sans',sans-serif;
+  }
+  .pack-del{
+    flex:0 0 24px;
+    width:24px;
+    height:24px;
+    border:none;
+    background:none;
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1;
+    border-radius:50%;
+  }
+  .pack-del:active{background:var(--warn-tint);color:var(--warn);}
+  .pack-empty{font-size:12.5px;color:var(--ink-soft);padding:6px 0;}
+  .pack-add{display:flex;gap:8px;padding:10px 0 2px;}
+  .pack-add-input{
+    flex:1;
+    padding:7px 10px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:13px;
+    background:var(--paper);
+    font-family:'Work Sans',sans-serif;
+  }
+  .pack-add-btn{
+    width:38px;
+    flex:0 0 38px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--paper-2);
+    font-size:17px;
+    color:var(--lyon);
+    font-weight:600;
+  }
 
   .budget-row{
     display:flex;
@@ -393,11 +432,6 @@
             <tr><td>巴黎機場票</td><td>€14</td><td>CDG／Orly 專用</td></tr>
           </table>
         </div>
-        <div class="info-card">
-          <h3>行程原則</h3>
-          <p>混合式選擇交通工具；風景優美路段優先步行，步行超過30分鐘則搭乘大眾運輸。</p>
-          <p>9/16 酒莊一日遊為包套行程，交通已含在內。</p>
-        </div>
       </div>
     </section>
 
@@ -433,9 +467,9 @@
             <div class="dates">入住 9/17 15:00　·　退房 9/26 11:00</div>
             <div class="accom-note" style="margin:10px 0 0;">
               <b>入住說明：</b><br>
-              從街道進入建築物需經由自動門廊，密碼為 <b>12A45</b><br>
-              公寓位於中庭底端的 D 棟；D 棟門禁密碼為 <b>74b57</b><br>
-              公寓位於 2 樓（法式標示為1樓，即台灣的2樓），可搭電梯或走樓梯上樓
+              需經由自動門廊進入（需要密碼）<br>
+              公寓位於中庭底端的 D 棟（需要密碼）<br>
+              公寓位於 2 樓（法式標示為1樓，即台灣的2樓），可搭電梯
             </div>
             <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=151+Rue+du+Faubourg+Saint-Antoine+75011+Paris+France">在 Google Maps 開啟導航</a>
           </div>
@@ -513,7 +547,7 @@ const days = [
   {time:"—",a:"CDG T1 → T2 轉機至 TGV 車站",note:"依機場指標步行/接駁"},
   {time:"11:58",a:"TGV 至 Lyon Part-Dieu",transport:"高鐵已訂票",note:"約2小時",map:"Gare de Lyon Part-Dieu"},
   {time:"14:00",a:"bnb 15:00可入住（先寄放行李）",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"},
-  {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"地鐵A線 République→Masséna站，再步行約5分鐘入園",note:"實際步行距離超過30分鐘（約3公里），建議搭地鐵",map:"Parc de la Tete d'Or Lyon"},
+  {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"地鐵A線 République→Masséna站，再步行約5分鐘入園",map:"Parc de la Tete d'Or Lyon"},
   {time:"傍晚",a:"河岸走走 → 證交所宮 → 里昂市政廳",transport:"步行約34分鐘",map:"Hotel de Ville Lyon"},
   {time:"19:30",a:"晚餐 Bouchon Tupin",tag:"已訂位",map:"Bouchon Tupin Lyon"}
 ]},
@@ -543,8 +577,8 @@ const days = [
   {time:"19:30-21:00",a:"晚餐 SO",tag:"待訂位 FB粉專",map:"SO restaurant Dijon"}
 ]},
 {n:6,date:"9/16",wd:"三",city:"dijon",title:"勃根地酒莊一日遊",sub:"包套行程",accom:"Dijon bnb",budget:"酒莊行程費用（待訂）+ 晚餐",items:[
-  {time:"09:45",a:"酒莊一日遊出發",transport:"包套行程，交通已含",tag:"待訂（淳）",note:"建議確認接送地點/時間、含餐與否、品飲數量"},
-  {time:"17:30",a:"一日結束回第戎"},
+  {time:"09:45",a:"酒莊一日遊出發",transport:"包套行程，交通已含",tag:"待訂（淳）",note:"建議確認接送地點/時間"},
+  {time:"17:30",a:"一日遊結束回第戎"},
   {time:"晚上",a:"晚餐 Le Bouchon Du Palais",transport:"步行（這天較累，建議就近）",note:"推薦紅酒燉牛肉",map:"Le Bouchon du Palais Dijon"}
 ]},
 {n:7,date:"9/17",wd:"四",city:"paris",title:"第戎 → 巴黎",sub:"瑪黑區・入住巴黎",accom:"Paris bnb｜151 Rue du Faubourg Saint-Antoine, 75011 Paris",budget:"交通 €10-15 + 博物館 + 餐飲",items:[
@@ -560,7 +594,7 @@ const days = [
   {time:"18-22",a:"晚餐 VIET NAM IMPRESSIONS",map:"Viet Nam Impressions Paris"}
 ]},
 {n:8,date:"9/18",wd:"五",city:"paris",title:"莫內美術館 → 鐵塔 → 市中心",sub:"⚠️動線較遠，注意銜接時間",accom:"Paris bnb",budget:"門票€29 + 交通€15-20 + 餐飲",items:[
-  {time:"—",a:"早餐 Café Bibonne",map:"Cafe Bibonne Paris"},
+  {time:"—",a:"早餐 Café Biboune",map:"105 Rue du Cherche-Midi 75006 Paris"},
   {time:"10-18",a:"Musée Marmottan Monet",transport:"地鐵9號線 La Muette站",note:"二-六8:30-16:00為Brunch時段，門票€14",map:"Musee Marmottan Monet Paris"},
   {time:"—",a:"比爾哈克姆橋",transport:"地鐵6號線",map:"Pont de Bir-Hakeim Paris"},
   {time:"—",a:"巴黎鐵塔 photo spot",transport:"步行（鄰近上一站）",map:"Trocadero Eiffel Tower photo spot"},
@@ -716,29 +750,112 @@ function scrollDayIntoView(){
   if(sel) sel.scrollIntoView({inline:'center',behavior:'smooth'});
 }
 
+let packUid = 0;
 const packing = [
-  {group:"證件與文件",items:["護照（效期6個月以上）","機票、TGV車票電子憑證","各項訂位確認信（餐廳/bnb/酒莊行程）","旅遊保險保單","信用卡（建議2張以上）","國際駕照（如自駕需要）"]},
-  {group:"電子用品",items:["歐規轉接頭（Type E/F，230V）","行動電源","網卡/SIM卡或漫遊方案","相機/備用記憶卡"]},
-  {group:"衣物（9月法國約12-22°C）",items:["洋蔥式穿搭：短袖+薄外套/風衣","走路鞋（步道/美術館步行量大）","一件較正式的衣服","雨具"]},
-  {group:"其他",items:["常備藥品（腸胃藥/感冒藥/止痛藥）","環保餐具（甜點外帶需自備）","購物袋/摺疊袋","小面額歐元現金"]}
+  {group:"衣褲",items:[
+    {name:"免洗內褲",unit:"件"},{name:"上衣",unit:"件"},{name:"短褲",unit:"件"},{name:"長裙",unit:"件"},
+    {name:"內褲",unit:"件"},{name:"睡衣",unit:"套"},{name:"外套",unit:"件"},{name:"襪子",unit:"雙"}
+  ]},
+  {group:"配件",items:[
+    {name:"購物袋",unit:"個"},{name:"帽子",unit:"頂"},{name:"墨鏡",unit:"副"},{name:"鞋子",unit:"雙"},{name:"涼鞋",unit:"雙"}
+  ]},
+  {group:"個人用品",items:[
+    {name:"浴巾",unit:"條"},{name:"牙刷組（牙套維持器/矯正器）",unit:"組"},{name:"防曬乳",unit:"瓶"},
+    {name:"卸妝品",unit:"瓶"},{name:"化妝品&隱形眼鏡",unit:"組"},{name:"香水",unit:"瓶"},{name:"頸枕",unit:"個"},
+    {name:"面紙/濕紙巾",unit:"包"},{name:"衛生棉",unit:"包"},{name:"止汗劑",unit:"罐"},{name:"面膜",unit:"片"},
+    {name:"乳液",unit:"瓶"},{name:"髮油",unit:"瓶"},{name:"棉花棒",unit:"包"},{name:"傘",unit:"把"},
+    {name:"眼鏡盒",unit:"個"},{name:"梳子",unit:"支"},{name:"手機繩",unit:"條"},{name:"口罩",unit:"個"},{name:"大髮夾",unit:"個"}
+  ]},
+  {group:"藥品",items:[
+    {name:"唇/眼藥膏",unit:"條"},{name:"中藥",unit:"包"},{name:"暈船藥",unit:"顆"},{name:"修足時間",unit:"個"},
+    {name:"維他命",unit:"顆"},{name:"止痛藥",unit:"顆"},{name:"感冒藥",unit:"顆"}
+  ]},
+  {group:"隨身行李（藥品）",items:[
+    {name:"醣祿錠",unit:"顆"},{name:"退黑激素/鎂",unit:"顆"},{name:"眼藥水",unit:"瓶"},
+    {name:"藍莓",unit:"包"},{name:"胃藥",unit:"顆"},{name:"解酒液",unit:"瓶"}
+  ]},
+  {group:"電子設備",items:[
+    {name:"吹風機",unit:"台"},{name:"轉接頭",unit:"個"},{name:"變壓器",unit:"個"},{name:"iTag",unit:"個"},
+    {name:"充電線+豆腐頭",unit:"組"},{name:"音響",unit:"台"},{name:"iPad",unit:"台"}
+  ]},
+  {group:"食物",items:[]},
+  {group:"雜物",items:[
+    {name:"鎖&防盜卡夾",unit:"個"},{name:"紙拖鞋",unit:"雙"},{name:"紙筆",unit:"支"},{name:"掛勾",unit:"個"},{name:"衣架",unit:"支"}
+  ]},
+  {group:"文件",items:[
+    {name:"護照",unit:"本"},{name:"證件照",unit:"張"},{name:"信用卡",unit:"張"},
+    {name:"外幣",unit:"份"},{name:"台幣",unit:"份"},{name:"文件",unit:"份"}
+  ]}
 ];
+packing.forEach(g=> g.items.forEach(it=> it.id = packUid++));
+
+function packItemHtml(gi, it){
+  return `
+    <div class="pack-item" id="pack-${gi}-${it.id}" data-gi="${gi}" data-id="${it.id}">
+      <input type="checkbox" class="pack-check">
+      <span class="pack-name">${it.name}</span>
+      <input type="number" min="0" class="pack-qty" placeholder="數量">
+      <input type="text" class="pack-unit" value="${it.unit||''}" placeholder="量詞">
+      <button class="pack-del" title="刪除">✕</button>
+    </div>
+  `;
+}
 
 function renderPacking(){
   const wrap = document.getElementById('packContainer');
   wrap.innerHTML = packing.map((g,gi)=>`
     <div class="pack-group">
       <h3>${g.group}</h3>
-      ${g.items.map((it,ii)=>`
-        <label class="pack-item" id="pack-${gi}-${ii}">
-          <input type="checkbox">
-          <span>${it}</span>
-        </label>
-      `).join('')}
+      <div class="pack-list" id="pack-list-${gi}">
+        ${g.items.length ? g.items.map(it=>packItemHtml(gi,it)).join('') : `<div class="pack-empty">尚未填入項目</div>`}
+      </div>
+      <div class="pack-add">
+        <input type="text" class="pack-add-input" placeholder="新增項目...">
+        <button class="pack-add-btn" data-group="${gi}">＋</button>
+      </div>
     </div>
   `).join('');
-  wrap.querySelectorAll('.pack-item').forEach(el=>{
-    const cb = el.querySelector('input');
+
+  function bindItem(el){
+    const cb = el.querySelector('.pack-check');
     cb.addEventListener('change', ()=>{ el.classList.toggle('checked', cb.checked); });
+    el.querySelector('.pack-del').addEventListener('click', ()=>{
+      const gi = parseInt(el.dataset.gi);
+      const id = parseInt(el.dataset.id);
+      packing[gi].items = packing[gi].items.filter(x=>x.id!==id);
+      el.remove();
+      const listEl = document.getElementById('pack-list-'+gi);
+      if(listEl && !listEl.querySelector('.pack-item')){
+        listEl.innerHTML = `<div class="pack-empty">尚未填入項目</div>`;
+      }
+    });
+  }
+  wrap.querySelectorAll('.pack-item').forEach(bindItem);
+
+  wrap.querySelectorAll('.pack-add-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const gi = parseInt(btn.dataset.group);
+      const input = btn.previousElementSibling;
+      const val = input.value.trim();
+      if(!val) return;
+      const newItem = {name:val, unit:"", id:packUid++};
+      packing[gi].items.push(newItem);
+      const listEl = document.getElementById('pack-list-'+gi);
+      const emptyEl = listEl.querySelector('.pack-empty');
+      if(emptyEl) emptyEl.remove();
+      const div = document.createElement('div');
+      div.innerHTML = packItemHtml(gi, newItem).trim();
+      const newEl = div.firstElementChild;
+      listEl.appendChild(newEl);
+      bindItem(newEl);
+      input.value = '';
+    });
+  });
+
+  wrap.querySelectorAll('.pack-add-input').forEach(inp=>{
+    inp.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){ e.preventDefault(); inp.nextElementSibling.click(); }
+    });
   });
 }
 
