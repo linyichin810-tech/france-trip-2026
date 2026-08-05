@@ -504,7 +504,11 @@
 
     <section id="tab-packing" class="tab">
       <div class="section-pad">
-        <h2>行前準備 / 行李清單</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h2 style="margin-bottom:0;">行前準備 / 行李清單</h2>
+          <button id="packResetBtn" style="font-size:11.5px;padding:5px 10px;border-radius:20px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink-soft);">重置清單</button>
+        </div>
+        <p style="font-size:11.5px;color:var(--ink-soft);margin:6px 0 12px;">此清單會自動保存在這台裝置的瀏覽器中</p>
         <div id="packContainer"></div>
       </div>
     </section>
@@ -808,6 +812,55 @@ const packing = [
 ];
 packing.forEach(g=> g.items.forEach(it=> it.id = packUid++));
 
+const PACK_STORAGE_KEY = 'france-trip-packing-v1';
+
+function serializePacking(){
+  const groups = [...document.querySelectorAll('#packContainer .pack-group')];
+  return groups.map(g=>{
+    const title = g.querySelector('h3').textContent;
+    const items = [...g.querySelectorAll('.pack-item')].map(el=>({
+      id: parseInt(el.dataset.id),
+      name: el.querySelector('.pack-name').textContent,
+      unit: el.querySelector('.pack-unit').value,
+      qty: el.querySelector('.pack-qty').value,
+      checked: el.querySelector('.pack-check').checked
+    }));
+    return {group:title, items};
+  });
+}
+
+function savePacking(){
+  try{ localStorage.setItem(PACK_STORAGE_KEY, JSON.stringify(serializePacking())); }
+  catch(e){ /* 私密瀏覽模式或儲存空間限制，略過不影響使用 */ }
+}
+
+let __packSavedState = null;
+function loadPackingFromStorage(){
+  try{
+    const raw = localStorage.getItem(PACK_STORAGE_KEY);
+    if(!raw) return;
+    const parsed = JSON.parse(raw);
+    if(!Array.isArray(parsed) || !parsed.length) return;
+    packing.length = 0;
+    parsed.forEach(g=> packing.push({group:g.group, items:g.items.map(it=>({id:it.id, name:it.name, unit:it.unit}))}));
+    const allIds = parsed.flatMap(g=>g.items.map(it=>it.id||0));
+    if(allIds.length) packUid = Math.max(packUid, ...allIds) + 1;
+    __packSavedState = parsed;
+  }catch(e){ /* 讀取失敗則維持預設清單 */ }
+}
+
+function applySavedPackingState(){
+  if(!__packSavedState) return;
+  __packSavedState.forEach(g=>{
+    g.items.forEach(it=>{
+      const el = document.querySelector(`.pack-item[data-id="${it.id}"]`);
+      if(!el) return;
+      if(it.qty) el.querySelector('.pack-qty').value = it.qty;
+      if(it.checked){ el.querySelector('.pack-check').checked = true; el.classList.add('checked'); }
+    });
+  });
+}
+
 function packItemHtml(gi, it){
   return `
     <div class="pack-item" id="pack-${gi}-${it.id}" data-gi="${gi}" data-id="${it.id}">
@@ -838,7 +891,9 @@ function renderPacking(){
 
   function bindItem(el){
     const cb = el.querySelector('.pack-check');
-    cb.addEventListener('change', ()=>{ el.classList.toggle('checked', cb.checked); });
+    cb.addEventListener('change', ()=>{ el.classList.toggle('checked', cb.checked); savePacking(); });
+    el.querySelector('.pack-qty').addEventListener('input', savePacking);
+    el.querySelector('.pack-unit').addEventListener('input', savePacking);
     el.querySelector('.pack-del').addEventListener('click', ()=>{
       const gi = parseInt(el.dataset.gi);
       const id = parseInt(el.dataset.id);
@@ -848,6 +903,7 @@ function renderPacking(){
       if(listEl && !listEl.querySelector('.pack-item')){
         listEl.innerHTML = `<div class="pack-empty">尚未填入項目</div>`;
       }
+      savePacking();
     });
   }
   wrap.querySelectorAll('.pack-item').forEach(bindItem);
@@ -869,6 +925,7 @@ function renderPacking(){
       listEl.appendChild(newEl);
       bindItem(newEl);
       input.value = '';
+      savePacking();
     });
   });
 
@@ -878,10 +935,12 @@ function renderPacking(){
     });
   });
 
-  wrap.querySelectorAll('.pack-list').forEach(makeSortable);
+  wrap.querySelectorAll('.pack-list').forEach(el=>makeSortable(el, savePacking));
+
+  applySavedPackingState();
 }
 
-function makeSortable(listEl){
+function makeSortable(listEl, onDrop){
   let dragEl = null;
   listEl.addEventListener('pointerdown', (e)=>{
     const handle = e.target.closest('.pack-handle');
@@ -911,6 +970,7 @@ function makeSortable(listEl){
     if(!dragEl) return;
     dragEl.classList.remove('dragging');
     dragEl = null;
+    if(onDrop) onDrop();
   }
   listEl.addEventListener('pointerup', endDrag);
   listEl.addEventListener('pointercancel', endDrag);
@@ -938,7 +998,16 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
 
 renderChips();
 renderDay();
+loadPackingFromStorage();
 renderPacking();
+const packResetBtn = document.getElementById('packResetBtn');
+if(packResetBtn){
+  packResetBtn.addEventListener('click', ()=>{
+    if(!confirm('確定要清空這台裝置上目前的行李清單，恢復成預設清單嗎？')) return;
+    try{ localStorage.removeItem(PACK_STORAGE_KEY); }catch(e){}
+    location.reload();
+  });
+}
 renderBudget();
 
 function syncStickyOffset(){
