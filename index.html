@@ -299,6 +299,21 @@
   }
   .pack-item input[type="checkbox"]{width:17px;height:17px;flex:0 0 17px;accent-color:var(--lyon);}
   .pack-item.checked .pack-name{text-decoration:line-through;color:var(--ink-soft);}
+  .pack-handle{
+    flex:0 0 18px;
+    width:18px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14px;
+    cursor:grab;
+    touch-action:none;
+    user-select:none;
+  }
+  .pack-item.dragging{
+    opacity:.45;
+    background:var(--paper-2);
+    border-radius:8px;
+  }
   .pack-name{flex:1;min-width:0;}
   .pack-qty,.pack-unit{
     width:44px;
@@ -544,12 +559,13 @@ const days = [
 ]},
 {n:2,date:"9/12",wd:"六",city:"lyon",title:"抵達巴黎 → TGV 里昂",sub:"入住里昂",accom:"Lyon bnb｜5 bis Rue du 24 Février 1848, 69100 Villeurbanne",budget:"交通 €5-10 + 晚餐",items:[
   {time:"07:55",a:"CDG 戴高樂機場抵達"},
-  {time:"—",a:"CDG T1 → T2 轉機至 TGV 車站",note:"依機場指標步行/接駁"},
-  {time:"11:58",a:"TGV 至 Lyon Part-Dieu",transport:"高鐵已訂票",note:"約2小時",map:"Gare de Lyon Part-Dieu"},
-  {time:"14:00",a:"bnb 15:00可入住（先寄放行李）",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"},
-  {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"地鐵A線 République→Masséna站，再步行約5分鐘入園",map:"Parc de la Tete d'Or Lyon"},
+  {time:"—",a:"CDG T1 → T2 至 TGV 車站",note:"依機場指標步行/接駁"},
+  {time:"11:58",a:"TGV 至 Lyon Part-Dieu",transport:"高鐵已訂票",note:"約2小時",origin:"Gare TGV Aeroport Charles de Gaulle 2, France",map:"5 Pl. Charles Beraudier, 69003 Lyon"},
+  {time:"14:00",a:"bnb 15:00可入住",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"},
+  {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"可搭地鐵或公車",map:"Parc de la Tete d'Or Lyon"},
   {time:"傍晚",a:"河岸走走 → 證交所宮 → 里昂市政廳",transport:"步行約34分鐘",map:"Hotel de Ville Lyon"},
-  {time:"19:30",a:"晚餐 Bouchon Tupin",tag:"已訂位",map:"Bouchon Tupin Lyon"}
+  {time:"19:30",a:"晚餐 Bouchon Tupin",tag:"已訂位",map:"Bouchon Tupin Lyon"},
+  {time:"—",a:"回bnb",note:"搭乘大眾運輸",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"}
 ]},
 {n:3,date:"9/13",wd:"日",city:"lyon",title:"里昂舊城區一日遊",sub:"傳統小酒館 Bouchon",accom:"Lyon bnb",budget:"交通 €10-15（含爬坡搭車）+ 餐飲",items:[
   {time:"早上",a:"中央市場 Les Halles de Lyon Paul Bocuse",map:"Les Halles de Lyon Paul Bocuse"},
@@ -562,7 +578,7 @@ const days = [
 ]},
 {n:4,date:"9/14",wd:"一",city:"dijon",title:"里昂 → 第戎",sub:"入住第戎",accom:"Dijon bnb｜5 Rue du Chapeau Rouge, 21000 Dijon",budget:"火車已付 + 餐飲",items:[
   {time:"11:00",a:"bnb check out"},
-  {time:"—",a:"寄放行李",note:"建議請 bnb 房東協助，或至 Part-Dieu 車站置物櫃"},
+  {time:"—",a:"寄放行李",note:"建議請 bnb 房東協助，或至 Part-Dieu 車站置物櫃",map:"5 Pl. Charles Beraudier, 69003 Lyon"},
   {time:"12:00-14:00",a:"午餐 Daniel et Denise Créqui",tag:"待訂位",map:"Daniel et Denise Crequi Lyon"},
   {time:"15:16",a:"Lyon Part-Dieu → Dijon",transport:"高鐵已訂票",note:"約1.5小時",map:"Gare de Dijon"},
   {time:"17:11",a:"bnb 16:00後可入住",map:"5 Rue du Chapeau Rouge 21000 Dijon"},
@@ -571,10 +587,11 @@ const days = [
   {time:"19:00",a:"晚餐 L'Bout D' La Rue",transport:"步行",note:"暫定，也可不吃",map:"L'Bout D' La Rue Dijon"}
 ]},
 {n:5,date:"9/15",wd:"二",city:"dijon",title:"第戎市區觀光",sub:"貓頭鷹步道",accom:"Dijon bnb",budget:"步道免費 + 餐飲 + 少量購物",items:[
-  {time:"09:00",a:"Halles centrales 中央市場（7-13點）",transport:"步行",note:"推薦 Jambon persillé 歐芹火腿凍",map:"Halles de Dijon"},
+  {time:"09:00",a:"Halles centrales 中央市場",transport:"步行",note:"營業時間7-13點，推薦 Jambon persillé 歐芹火腿凍",map:"Halles de Dijon"},
   {time:"09:00",a:"貓頭鷹步道 Parcours de la Chouette（觀光路線，非單一地點，全程約3公里/22站，約1小時）",transport:"步行全程，沿地面銅製貓頭鷹箭頭標誌走",note:"主要站點：① Rue des Forges古宅群 ② 第戎聖母院（摸貓頭鷹許願）③ 勃根地公爵宮 Palais des Ducs ④ 解放廣場 Place de la Libération ⑤ 聖米歇爾教堂/Musée Rude ⑥ Square des Ducs ⑦ Grangier廣場/郵政總局 ⑧ 達西花園 Jardin Darcy ⑨ 聖伯尼涅大教堂 ⑩ 美術館 ⑪ 聖讓教堂 ⑫ 聖菲利貝爾教堂　（2011年後新增延伸迴圈：讓－雅克盧梭區/古董商街、摩西之井與尚莫爾修道院、軍械庫公園）",map:"Office de Tourisme Dijon"},
   {time:"—",a:"Maille Dijon mustard 芥末店觀光",transport:"步行（步道路線上）",map:"Maille Boutique Dijon"},
-  {time:"19:30-21:00",a:"晚餐 SO",tag:"待訂位 FB粉專",map:"SO restaurant Dijon"}
+  {time:"19:30-21:00",a:"晚餐 SO",tag:"待訂位 FB粉專",map:"SO restaurant Dijon"},
+  {time:"—",a:"回bnb",note:"搭乘大眾運輸",map:"5 Rue du Chapeau Rouge 21000 Dijon"}
 ]},
 {n:6,date:"9/16",wd:"三",city:"dijon",title:"勃根地酒莊一日遊",sub:"包套行程",accom:"Dijon bnb",budget:"酒莊行程費用（待訂）+ 晚餐",items:[
   {time:"09:45",a:"酒莊一日遊出發",transport:"包套行程，交通已含",tag:"待訂（淳）",note:"建議確認接送地點/時間"},
@@ -584,11 +601,11 @@ const days = [
 {n:7,date:"9/17",wd:"四",city:"paris",title:"第戎 → 巴黎",sub:"瑪黑區・入住巴黎",accom:"Paris bnb｜151 Rue du Faubourg Saint-Antoine, 75011 Paris",budget:"交通 €10-15 + 博物館 + 餐飲",items:[
   {time:"09:32",a:"Dijon → Paris Gare de Lyon",transport:"高鐵已訂票",note:"約1.5小時",map:"Gare de Lyon Paris"},
   {time:"11:08",a:"寄放行李",tag:"待訂",note:"可在bnb預約，或車站Hall 3地下一樓靠近Rue de Bercy出口"},
-  {time:"—",a:"巴士底市集",transport:"步行或地鐵€2.55",note:"7-14點，中午逐漸收攤",map:"Marche Bastille Paris"},
-  {time:"10-18",a:"Carnavalet Museum 卡納瓦雷博物館",transport:"地鐵",note:"一休館，免費預約",map:"Musee Carnavalet Paris"},
+  {time:"—",a:"巴士底市集",transport:"步行",note:"7-14點，中午逐漸收攤",map:"Marche Bastille Paris"},
+  {time:"—",a:"Carnavalet Museum 卡納瓦雷博物館",transport:"地鐵",note:"營業時間10-18點，一休館，免費預約",map:"Musee Carnavalet Paris"},
   {time:"—",a:"瑪黑區散步走（選一間咖啡廳）",transport:"步行",map:"Le Marais Paris"},
-  {time:"8-18",a:"麵包 Petite Ile boulangerie",transport:"步行",map:"Petite Ile boulangerie Paris"},
-  {time:"—",a:"甜點 Brigat'",transport:"步行",note:"外帶去廣場，需自備餐具",map:"Brigat patisserie Paris"},
+  {time:"—",a:"麵包 Petite Ile boulangerie",transport:"步行",note:"營業時間8-18點，🌟芝麻巧克力可頌",map:"Petite Ile boulangerie Paris"},
+  {time:"—",a:"甜點 Brigat'",transport:"步行",note:"外帶去廣場，需自備餐具，🌟夏天有gelato",map:"Brigat patisserie Paris"},
   {time:"—",a:"孚日廣場",transport:"步行",map:"Place des Vosges Paris"},
   {time:"15:00",a:"bnb check in",note:"確認Uber/機場接送價格",map:"151 Rue du Faubourg Saint-Antoine 75011 Paris"},
   {time:"18-22",a:"晚餐 VIET NAM IMPRESSIONS",map:"Viet Nam Impressions Paris"}
@@ -600,9 +617,9 @@ const days = [
   {time:"—",a:"巴黎鐵塔 photo spot",transport:"步行（鄰近上一站）",map:"Trocadero Eiffel Tower photo spot"},
   {time:"—",a:"甜點 Toshiya Takatsuka",transport:"地鐵",map:"Patisserie Toshiya Takatsuka Paris"},
   {time:"—",a:"戰神廣場",transport:"步行",map:"Champ de Mars Paris"},
-  {time:"11-19",a:"Bourse de Commerce - Pinault Collection",transport:"地鐵換乘至1區",note:"週二休館，門票€15官網已購",map:"Bourse de Commerce Pinault Collection Paris"},
-  {time:"—",a:"回家休息"},
-  {time:"18:30-23:30",a:"jip.paris",tag:"待訂位",map:"jip paris restaurant"}
+  {time:"—",a:"Bourse de Commerce - Pinault Collection",transport:"地鐵換乘至1區",note:"營業時間11-19點，週二休館，門票€15官網",map:"Bourse de Commerce Pinault Collection Paris"},
+  {time:"—",a:"回bnb休息",map:"151 Rue du Faubourg Saint-Antoine 75011 Paris"},
+  {time:"18:30-23:30",a:"jip.paris",tag:"待訂位",origin:"151 Rue du Faubourg Saint-Antoine 75011 Paris",map:"jip paris restaurant"}
 ]},
 {n:9,date:"9/19",wd:"六",city:"paris",title:"拉法葉百貨 → 蒙馬特",sub:"聖心堂・愛牆",accom:"Paris bnb",budget:"交通€10 + 餐飲 + 購物",items:[
   {time:"10:00",a:"Galeries Lafayette Haussmann",transport:"地鐵",note:"10:00營業",map:"Galeries Lafayette Haussmann Paris"},
@@ -622,7 +639,7 @@ const days = [
 {n:11,date:"9/21",wd:"一",city:"paris",title:"羅浮宮 → 凱旋門",sub:"日落登頂",accom:"Paris bnb",budget:"交通€10 + 凱旋門門票 + 購物 + 簡便晚餐",items:[
   {time:"09:00",a:"羅浮宮",transport:"地鐵1/7號線 Palais Royal Musée du Louvre 6號出口",tag:"已預約",map:"Musee du Louvre Paris"},
   {time:"—",a:"可麗餅 Café Courtial",transport:"步行",map:"Cafe Courtial la Crepe Paris"},
-  {time:"—",a:"莎瑪麗丹百貨 La Samaritaine（Jellycat）",transport:"步行",map:"La Samaritaine Paris"},
+  {time:"—",a:"莎瑪麗丹百貨 La Samaritaine",transport:"步行",note:"Jellycat種類齊全",map:"La Samaritaine Paris"},
   {time:"—",a:"皇家宮殿花園",transport:"步行",map:"Jardin du Palais Royal Paris"},
   {time:"—",a:"香榭麗舍大道",transport:"地鐵1號線",map:"Avenue des Champs-Elysees Paris"},
   {time:"19:30-20:30",a:"凱旋門登頂",transport:"步行（與香榭麗舍相接）",note:"推薦日落，前半小時到一小時登頂",map:"Arc de Triomphe Paris"},
@@ -641,7 +658,7 @@ const days = [
   {time:"09:30-14:30",a:"凡爾賽宮",note:"宮殿內部4-5小時，9:00-17:30，現場語音導覽€5",map:"Chateau de Versailles"},
   {time:"15:00-16:00",a:"凡爾賽宮搭RER C至軍榮院站",transport:"RER C"},
   {time:"—",a:"晚餐 Les Cocottes",map:"Les Cocottes Paris"},
-  {time:"—",a:"戰神廣場旁 Place du Trocadero",map:"Place du Trocadero Paris"},
+  {time:"—",a:"Place du Trocadero",note:"特羅卡德羅廣場",map:"Place du Trocadero Paris"},
   {time:"晚上",a:"巴黎鐵塔河畔夜景",transport:"步行",map:"Eiffel Tower Paris"}
 ]},
 {n:14,date:"9/24",wd:"四",city:"paris",title:"橘園 → 羅丹 → 奧賽美術館",sub:"印象派巡禮",accom:"Paris bnb",budget:"門票已購 + 交通€10 + 餐飲",items:[
@@ -649,6 +666,7 @@ const days = [
   {time:"—",a:"杜樂麗花園",transport:"步行",map:"Jardin des Tuileries Paris"},
   {time:"—",a:"羅丹美術館",note:"10:00-18:30，已預約",tag:"已預約",map:"Musee Rodin Paris"},
   {time:"—",a:"午餐 Da Rocco",note:"帕尼尼",map:"Da Rocco Paris"},
+  {time:"—",a:"Tax Free La Boutique",link:"https://maps.app.goo.gl/cUTahZnUJgskivPE8",map:"Tax Free La Boutique Paris"},
   {time:"18:00",a:"奧賽美術館",note:"入場排A2區，已預約",tag:"已預約",map:"Musee d'Orsay Paris"}
 ]},
 {n:15,date:"9/25",wd:"五",city:"paris",title:"自由活動＋收行李",sub:"輕鬆的一天",accom:"Paris bnb",budget:"餐飲為主",items:[
@@ -660,6 +678,7 @@ const days = [
   {time:"11:00",a:"bnb check out"},
   {time:"—",a:"寄放行李",note:"可在bnb預約，或車站Hall 3地下一樓靠近Rue de Bercy出口"},
   {time:"—",a:"甜點 Tapisserie - Charonne",transport:"步行",map:"Tapisserie Charonne Paris"},
+  {time:"—",a:"Klover Coffee Showroom",link:"https://maps.app.goo.gl/mjXF53fMXptARSaY8",map:"Klover Coffee Showroom Paris"},
   {time:"18:00",a:"叫 Uber 去機場旅館",transport:"Uber",note:"請提前確認Uber/機場接送價格"},
   {time:"—",a:"Holiday Inn Express Paris - CDG Airport",note:"15:00後可入住",map:"Holiday Inn Express Paris CDG Airport 5 Rue Du Voyageur Roissy-en-France"}
 ]},
@@ -683,7 +702,7 @@ const accomMapByDay = {2:LYON_BNB,3:LYON_BNB,4:DIJON_BNB,5:DIJON_BNB,6:DIJON_BNB
   days.forEach(d=>{
     d.items.forEach(it=>{
       if(it.map){
-        it.origin = prev;
+        if(it.origin===undefined) it.origin = prev;
         prev = it.map;
       }
     });
@@ -718,7 +737,7 @@ function renderDay(){
           ${it.tag ? `<span class="pill todo">${it.tag}</span>`:''}
         </div>
         ${it.note ? `<div class="note">${it.note}</div>`:''}
-        ${it.map ? `<a class="map-btn" target="_blank" href="${it.origin ? dirUrl(it.origin, it.map, it.transport) : mapUrl(it.map)}">開啟導航</a>`:''}
+        ${(it.map || it.link) ? `<a class="map-btn" target="_blank" href="${it.link ? it.link : (it.origin ? dirUrl(it.origin, it.map, it.transport) : mapUrl(it.map))}">開啟導航</a>`:''}
       </div>
     </div>
   `).join('');
@@ -792,6 +811,7 @@ packing.forEach(g=> g.items.forEach(it=> it.id = packUid++));
 function packItemHtml(gi, it){
   return `
     <div class="pack-item" id="pack-${gi}-${it.id}" data-gi="${gi}" data-id="${it.id}">
+      <span class="pack-handle">⠿</span>
       <input type="checkbox" class="pack-check">
       <span class="pack-name">${it.name}</span>
       <input type="number" min="0" class="pack-qty" placeholder="數量">
@@ -857,6 +877,43 @@ function renderPacking(){
       if(e.key === 'Enter'){ e.preventDefault(); inp.nextElementSibling.click(); }
     });
   });
+
+  wrap.querySelectorAll('.pack-list').forEach(makeSortable);
+}
+
+function makeSortable(listEl){
+  let dragEl = null;
+  listEl.addEventListener('pointerdown', (e)=>{
+    const handle = e.target.closest('.pack-handle');
+    if(!handle) return;
+    dragEl = handle.closest('.pack-item');
+    if(!dragEl) return;
+    try{ handle.setPointerCapture(e.pointerId); }catch(err){}
+    dragEl.classList.add('dragging');
+    e.preventDefault();
+  });
+  listEl.addEventListener('pointermove', (e)=>{
+    if(!dragEl) return;
+    const items = [...listEl.querySelectorAll('.pack-item')].filter(x=>x!==dragEl);
+    let placed = false;
+    for(const item of items){
+      const rect = item.getBoundingClientRect();
+      const mid = rect.top + rect.height/2;
+      if(e.clientY < mid){
+        listEl.insertBefore(dragEl, item);
+        placed = true;
+        break;
+      }
+    }
+    if(!placed) listEl.appendChild(dragEl);
+  });
+  function endDrag(){
+    if(!dragEl) return;
+    dragEl.classList.remove('dragging');
+    dragEl = null;
+  }
+  listEl.addEventListener('pointerup', endDrag);
+  listEl.addEventListener('pointercancel', endDrag);
 }
 
 function renderBudget(){
