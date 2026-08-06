@@ -405,6 +405,71 @@
     font-size:12px;
     line-height:1.6;
   }
+
+  .menu-trigger{
+    cursor:pointer;
+    text-decoration:underline;
+    text-decoration-style:dotted;
+    text-underline-offset:3px;
+    text-decoration-color:var(--ink-soft);
+  }
+  .menu-ic{font-size:11px;}
+
+  .menu-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(43,38,33,.55);
+    z-index:50;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .menu-backdrop.hidden{display:none;}
+  .menu-modal{
+    width:100%;
+    max-width:480px;
+    max-height:82vh;
+    background:var(--paper);
+    border-radius:18px 18px 0 0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .menu-modal-head{
+    padding:16px 18px 12px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper-2);
+    position:relative;
+  }
+  .menu-modal-head h3{font-size:16px;padding-right:30px;line-height:1.4;}
+  .menu-modal-close{
+    position:absolute;
+    top:12px;right:14px;
+    width:28px;height:28px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    font-size:15px;
+    color:var(--ink-soft);
+  }
+  .menu-modal-body{
+    padding:8px 18px 22px;
+    overflow-y:auto;
+  }
+  .menu-section-title{
+    font-family:'Fraunces',serif;
+    font-size:14.5px;
+    font-weight:600;
+    margin:16px 0 8px;
+    color:var(--lyon);
+  }
+  .menu-row{
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .menu-fr{font-size:13px;font-weight:600;line-height:1.4;}
+  .menu-fr .price{font-weight:500;color:var(--ink-soft);font-size:12px;}
+  .menu-zh{font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -546,9 +611,126 @@
     <button class="nav-btn" data-tab="packing"><span class="ic">🧳</span>行李</button>
     <button class="nav-btn" data-tab="budget"><span class="ic">💶</span>預算</button>
   </nav>
+
+  <div class="menu-backdrop hidden" id="menuBackdrop">
+    <div class="menu-modal">
+      <div class="menu-modal-head">
+        <h3 id="menuModalTitle"></h3>
+        <button class="menu-modal-close" id="menuModalClose">✕</button>
+      </div>
+      <div class="menu-modal-body" id="menuModalBody"></div>
+    </div>
+  </div>
 </div>
 
 <script>
+const restaurantMenus = {
+  bouchonTupin: {
+    title: "Bouchon Tupin — Menu des Canuts",
+    sections: [
+      {name:"套餐說明", items:[
+        {fr:"Menu des Canuts 絲綢工人套餐（34.50 €）", zh:"可在全單中任選：前菜 / 主菜 / 起司 或 甜點"}
+      ]},
+      {name:"前菜 Entrées", items:[
+        {fr:"Œufs parfaits en meurette", zh:"完美溫泉蛋配紅酒醬（佐煙肉、蘑菇與麵包丁）"},
+        {fr:"Oreiller du Chef (pâté-croûte)", zh:"主廚特製法式肉派（豬肉、家禽與鴨肉，佐蘋果醋凍、醃菜與芥末籽）"},
+        {fr:"Velouté glacé de Courgettes au basilic, chèvre frais citron", zh:"羅勒冷冰櫛瓜濃湯（佐檸檬鮮山羊起司、油封番茄與烤松子）"},
+        {fr:"Salade de poulpe, menthe, citron vert et tomates cerises", zh:"章魚沙拉（佐薄荷、萊姆、聖女番茄、費塔起司與煙燻茄子泥）"}
+      ]},
+      {name:"主菜 Plats", items:[
+        {fr:"Pluma de Cochon grillée, polenta à l'Ossau-Iraty", zh:"烤伊比利豬梅花肉（佐奧索-伊拉蒂起司玉米餅、焦香黃油、番茄香腸鮮果莎莎醬）"},
+        {fr:"Quenelle Lyonnaise au Brochet, sauce Homardine & riz Basmati", zh:"里昂法式狗魚梭子魚丸（佐龍蝦醬與香米）"},
+        {fr:"Langue de bœuf confite 10 heures", zh:"油封10小時牛舌（佐優格、櫛瓜薄片、羅勒青醬、家禽肉汁、橄欖與油封檸檬）"},
+        {fr:"Filet de Merlu, écrasé de pomme de terre à l'huile d'olive", zh:"煎鱈魚菲力（佐橄欖油壓碎馬鈴薯、鮮美蛤蜊汁、淡菜、番紅花與海馬齒）"}
+      ]},
+      {name:"起司 Fromages", items:[
+        {fr:"Cervelle de Canut", zh:"里昂特製香草鮮起司（絲綢工人腦起司）"},
+        {fr:"Faisselle de Fromage Blanc", zh:"鮮起司瀝水酪（可選鮮油或時令水果醬）"},
+        {fr:"½ Saint-Marcellin de nos fermes", zh:"農場特選聖馬瑟林軟質起司（半顆）"}
+      ]},
+      {name:"甜點 Desserts", items:[
+        {fr:"Tarte à la Praline", zh:"里昂特色紅杏仁糖塔"},
+        {fr:"Abricots rôtis, mousse yaourt citron vert vanille", zh:"烤杏桃（佐萊姆香草優格慕斯與焦糖千層酥片）"},
+        {fr:"Riz au lait crémeux", zh:"法式香濃牛奶米布丁（佐榛果、花生與焦糖醬）"},
+        {fr:"Baba au Rhum à la fraise", zh:"草莓朗姆酒香 Baba 蛋糕（佐白巧克力香草甘納許）"}
+      ]}
+    ]
+  },
+  panurge: {
+    title: "Restaurant Panurge",
+    sections: [
+      {name:"Chapitre I - Entrées 前菜", items:[
+        {fr:"Crudo de thon blanc", zh:"白鮪魚生魚片，搭櫻桃番茄、絲綢起司（Stracciatella）、紅蘇紫蘇酸葡萄汁"},
+        {fr:"Fromage de tête", zh:"法式豬頭肉凍，搭醃漬蔬菜、獨活草蛋黃醬"},
+        {fr:"Crème glacée de maïs", zh:"玉米冰淇淋，搭瑞塔起司（Ricotta）、皮埃蒙特榛果"},
+        {fr:"Pâté en croûte, canard et foie gras (+8€)", zh:"鴨肉鵝肝法式酥皮肉餅，搭無花果醬與沙拉"}
+      ]},
+      {name:"Chapitre II - Plats 主菜", items:[
+        {fr:"Gigot d'agneau rôti au romarin", zh:"迷迭香烤羊腿，搭味噌茄子、雞油菌、濃縮肉汁"},
+        {fr:"Fleurs de courgette farcies ratatouille et mozzarella", zh:"普羅旺斯燉菜與莫札瑞拉起司鑲櫛瓜花，搭咖哩香菜櫛瓜泥、黑檸檬"},
+        {fr:"Pêche du jour sauce vierge (+5€)", zh:"今日鮮魚搭法式鮮蔬醬汁（Sauce Vierge）、黑米燉飯、布列塔尼貽貝（moules de Bouchot）"}
+      ]},
+      {name:"Chapitre III - Desserts 甜點", items:[
+        {fr:"Fromage (10€)", zh:"時令起司拼盤"},
+        {fr:"Soupe de melon, granité gingembre", zh:"甜瓜湯，搭生薑冰沙、檸檬奶油、白起司雪酪"},
+        {fr:"Clafoutis aux cerises", zh:"櫻桃克拉芙蒂蛋糕，搭羊奶冰淇淋"},
+        {fr:"Myrtille sauvage (+3€)", zh:"野生藍莓，搭無花果葉奶酪（Panna Cotta）、豆蔻冰淇淋"}
+      ]}
+    ]
+  },
+  petitBalPerdu: {
+    title: "Le Petit Bal Perdu",
+    sections: [
+      {name:"開胃菜 Les entrées", items:[
+        {fr:"Panier de crudités et ses 3 sauces, à partager (ou pas)", zh:"蔬菜沙拉拼盤配3款沾醬（適合分享）", price:"18€"},
+        {fr:"Terrine de campagne maison", zh:"自製鄉村肉凍", price:"9€"},
+        {fr:"Gaspacho de petits pois et menthe", zh:"青豆薄荷冷湯", price:"12€"},
+        {fr:"Tartare d'avocat et haddock", zh:"酪梨燻魚塔塔（黑線鱈）", price:"14€"},
+        {fr:"Rémoulade de crabe au curry", zh:"咖哩蟹肉捲心菜沙拉", price:"15€"},
+        {fr:"Salade César façon \"tonnato\"", zh:"義式鮪魚醬風格凱薩沙拉", price:"13€"},
+        {fr:"Moules gratinées en persillade", zh:"法式香草奶油焗烤貽貝", price:"12€"},
+        {fr:"Croustillants de gambas, basilic", zh:"香草脆皮炸蝦", price:"12€"},
+        {fr:"Burrata, caviar d'aubergines et tomates cerises", zh:"布拉塔起司配茄子泥與聖女果", price:"14€"}
+      ]},
+      {name:"主菜 Les plats", items:[
+        {fr:"Entrecôte 'Black Angus' sauce au poivre", zh:"黑安格斯肋眼牛排配黑胡椒醬", price:"30€"},
+        {fr:"Magret de canard au miel d'acacia et vinaigre de Banyuls", zh:"鴨胸配金合歡蜂蜜與巴紐爾斯紅酒醋", price:"28€"},
+        {fr:"Tartare de bœuf, pommes de terre sautées", zh:"生牛肉塔塔配炒馬鈴薯", price:"19€"},
+        {fr:"Carré d'agneau, jus au romarin", zh:"烤羊排配迷迭香肉汁", price:"30€"},
+        {fr:"Cabillaud à la sauce, risotto d'épeautre", zh:"鼠尾草鱈魚配斯佩爾特小麥燉飯", price:"27€"},
+        {fr:"Poêlée de gambas en persillade", zh:"香草奶油炒大蝦", price:"26€"},
+        {fr:"Filet de bar au citron confit", zh:"醃漬黃檸檬鱸魚菲力", price:"26€"},
+        {fr:"Mille-feuille de thon cru au sésame", zh:"芝麻生鮪魚千層", price:"27€"},
+        {fr:"Ravioles du Dauphiné gratinées", zh:"焗烤多菲內法式小餃子", price:"19€"},
+        {fr:"Risotto aux petits légumes", zh:"時蔬燉飯", price:"20€"}
+      ]}
+    ]
+  }
+};
+
+function openMenuModal(key){
+  const data = restaurantMenus[key];
+  if(!data) return;
+  document.getElementById('menuModalTitle').textContent = data.title;
+  document.getElementById('menuModalBody').innerHTML = data.sections.map(sec=>`
+    <div class="menu-section-title">${sec.name}</div>
+    ${sec.items.map(it=>`
+      <div class="menu-row">
+        <div class="menu-fr">${it.fr}${it.price ? ` <span class="price">• ${it.price}</span>`:''}</div>
+        <div class="menu-zh">${it.zh}</div>
+      </div>
+    `).join('')}
+  `).join('');
+  document.getElementById('menuBackdrop').classList.remove('hidden');
+}
+function closeMenuModal(){
+  document.getElementById('menuBackdrop').classList.add('hidden');
+}
+document.getElementById('menuModalClose').addEventListener('click', closeMenuModal);
+document.getElementById('menuBackdrop').addEventListener('click', (e)=>{
+  if(e.target.id === 'menuBackdrop') closeMenuModal();
+});
+
 function mapUrl(q){return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);}
 function dirUrl(origin,dest,transport){
   let mode = "transit";
@@ -568,7 +750,7 @@ const days = [
   {time:"14:00",a:"bnb 15:00可入住",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"},
   {time:"下午",a:"金頭公園 Parc de la Tête d'Or",transport:"可搭地鐵或公車",map:"Parc de la Tete d'Or Lyon"},
   {time:"傍晚",a:"河岸走走 → 證交所宮 → 里昂市政廳",transport:"步行約34分鐘",map:"Hotel de Ville Lyon"},
-  {time:"19:30",a:"晚餐 Bouchon Tupin",tag:"已訂位",map:"Bouchon Tupin Lyon"},
+  {time:"19:30",a:"晚餐 Bouchon Tupin",tag:"已訂位",note:"套餐€34.5",map:"Bouchon Tupin Lyon",menu:"bouchonTupin"},
   {time:"—",a:"回bnb",note:"搭乘大眾運輸",map:"5 bis Rue du 24 Fevrier 1848 69100 Villeurbanne"}
 ]},
 {n:3,date:"9/13",wd:"日",city:"lyon",title:"里昂舊城區一日遊",sub:"傳統小酒館 Bouchon",accom:"Lyon bnb",budget:"交通 €10-15（含爬坡搭車）+ 餐飲",items:[
@@ -583,7 +765,7 @@ const days = [
 {n:4,date:"9/14",wd:"一",city:"dijon",title:"里昂 → 第戎",sub:"入住第戎",accom:"Dijon bnb｜5 Rue du Chapeau Rouge, 21000 Dijon",budget:"火車已付 + 餐飲",items:[
   {time:"11:00",a:"bnb check out"},
   {time:"—",a:"寄放行李",note:"建議請 bnb 房東協助，或至 Part-Dieu 車站置物櫃",map:"5 Pl. Charles Beraudier, 69003 Lyon"},
-  {time:"12:00-14:00",a:"午餐 Daniel et Denise Créqui",tag:"待訂位",map:"Daniel et Denise Crequi Lyon"},
+  {time:"12:00-14:00",a:"午餐 Agastache Restaurant",tag:"已訂位",note:"午間套餐€28/€35",origin:"Gare de Lyon Part-Dieu",map:"Agastache Restaurant Lyon"},
   {time:"15:16",a:"Lyon Part-Dieu → Dijon",transport:"高鐵已訂票",note:"約1.5小時",map:"Gare de Dijon"},
   {time:"17:11",a:"bnb 16:00後可入住",map:"5 Rue du Chapeau Rouge 21000 Dijon"},
   {time:"18:00",a:"聖母院（用左手摸貓頭鷹）",transport:"步行",map:"Notre-Dame de Dijon"},
@@ -615,19 +797,19 @@ const days = [
   {time:"18-22",a:"晚餐 VIET NAM IMPRESSIONS",map:"Viet Nam Impressions Paris"}
 ]},
 {n:8,date:"9/18",wd:"五",city:"paris",title:"莫內美術館 → 鐵塔 → 市中心",sub:"⚠️動線較遠，注意銜接時間",accom:"Paris bnb",budget:"門票€29 + 交通€15-20 + 餐飲",items:[
-  {time:"—",a:"早餐 Café Biboune",map:"105 Rue du Cherche-Midi 75006 Paris"},
-  {time:"10-18",a:"Musée Marmottan Monet",transport:"地鐵9號線 La Muette站",note:"二-六8:30-16:00為Brunch時段，門票€14",map:"Musee Marmottan Monet Paris"},
+  {time:"—",a:"早餐 Café Biboune",note:"營業時間08:30-16:00",map:"105 Rue du Cherche-Midi 75006 Paris"},
+  {time:"—",a:"Musée Marmottan Monet",transport:"地鐵9號線 La Muette站",note:"門票€14",map:"Musee Marmottan Monet Paris"},
   {time:"—",a:"比爾哈克姆橋",transport:"地鐵6號線",map:"Pont de Bir-Hakeim Paris"},
   {time:"—",a:"巴黎鐵塔 photo spot",transport:"步行（鄰近上一站）",map:"Trocadero Eiffel Tower photo spot"},
   {time:"—",a:"甜點 Toshiya Takatsuka",transport:"地鐵",map:"Patisserie Toshiya Takatsuka Paris"},
   {time:"—",a:"戰神廣場",transport:"步行",map:"Champ de Mars Paris"},
-  {time:"—",a:"Bourse de Commerce - Pinault Collection",transport:"地鐵換乘至1區",note:"營業時間11-19點，週二休館，門票€15官網",map:"Bourse de Commerce Pinault Collection Paris"},
+  {time:"—",a:"Bourse de Commerce - Pinault Collection",transport:"地鐵換乘至1區",note:"營業時間11-19點，門票€15",map:"Bourse de Commerce Pinault Collection Paris"},
   {time:"—",a:"回bnb休息",map:"151 Rue du Faubourg Saint-Antoine 75011 Paris"},
   {time:"18:30-23:30",a:"jip.paris",tag:"待訂位",origin:"151 Rue du Faubourg Saint-Antoine 75011 Paris",map:"jip paris restaurant"}
 ]},
 {n:9,date:"9/19",wd:"六",city:"paris",title:"拉法葉百貨 → 蒙馬特",sub:"聖心堂・愛牆",accom:"Paris bnb",budget:"交通€10 + 餐飲 + 購物",items:[
   {time:"10:00",a:"Galeries Lafayette Haussmann",transport:"地鐵",note:"10:00營業",map:"Galeries Lafayette Haussmann Paris"},
-  {time:"12:00",a:"午餐 Restaurant Panurge",tag:"待訂位",map:"Restaurant Panurge Paris"},
+  {time:"12:15",a:"午餐 Restaurant Panurge",tag:"待訂位",note:"午間套餐€33",map:"Restaurant Panurge Paris",menu:"panurge"},
   {time:"—",a:"麵包 Mamiche",transport:"步行",map:"Mamiche boulangerie Paris"},
   {time:"—",a:"愛牆 Le mur des je t'aime",transport:"步行/地鐵",map:"Le mur des je t'aime Paris"},
   {time:"—",a:"聖心堂",transport:"步行",map:"Basilique du Sacre-Coeur Paris"},
@@ -636,7 +818,7 @@ const days = [
 {n:10,date:"9/20",wd:"日",city:"paris",title:"跳蚤市場 → 盧森堡公園",sub:"古董市集",accom:"Paris bnb",budget:"交通€10 + 午餐約€40(2人) + 購物",items:[
   {time:"08:30",a:"Porte de Vanves 跳蚤市場",transport:"地鐵13號線",map:"Marche aux puces de la Porte de Vanves"},
   {time:"—",a:"盧森堡公園",transport:"地鐵",map:"Jardin du Luxembourg Paris"},
-  {time:"—",a:"午餐 Le Petit Bal Perdu",transport:"步行",note:"套餐€19/€25，現場候位",map:"Le Petit Bal Perdu Paris"},
+  {time:"—",a:"午餐 Le Petit Bal Perdu",transport:"步行",note:"週末沒有套餐，現場候位",map:"Le Petit Bal Perdu Paris",menu:"petitBalPerdu"},
   {time:"—",a:"甜點 Carl Marletti",transport:"步行",map:"Patisserie Carl Marletti Paris"},
   {time:"—",a:"瑪黑區購物",transport:"地鐵",map:"Le Marais shopping Paris"}
 ]},
@@ -735,7 +917,7 @@ function renderDay(){
     <div class="item">
       <div class="time">${it.time}</div>
       <div class="body">
-        <div class="activity">${it.a}</div>
+        <div class="activity">${it.menu ? `<span class="menu-trigger" data-menu="${it.menu}">${it.a} <span class="menu-ic">🍽</span></span>` : it.a}</div>
         <div class="meta">
           ${it.transport ? `<span class="pill">${it.transport}</span>`:''}
           ${it.tag ? `<span class="pill todo">${it.tag}</span>`:''}
@@ -765,6 +947,9 @@ function renderDay(){
   `;
   document.getElementById('prevDay').addEventListener('click', ()=>{ if(currentDay>1){currentDay--; renderChips(); renderDay(); scrollDayIntoView();} });
   document.getElementById('nextDay').addEventListener('click', ()=>{ if(currentDay<17){currentDay++; renderChips(); renderDay(); scrollDayIntoView();} });
+  el.querySelectorAll('.menu-trigger').forEach(t=>{
+    t.addEventListener('click', ()=> openMenuModal(t.dataset.menu));
+  });
   window.scrollTo({top:0,behavior:'instant'});
 }
 
