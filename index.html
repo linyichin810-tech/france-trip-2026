@@ -415,6 +415,23 @@
   }
   .menu-ic{font-size:11px;}
 
+  .stop-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:6px;
+  }
+  .stop-link{
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--transit);
+    text-decoration:none;
+  }
+  .stop-link:active{background:var(--transit-tint);}
+
   .menu-backdrop{
     position:fixed;
     inset:0;
@@ -705,6 +722,430 @@ const restaurantMenus = {
         {fr:"Risotto aux petits légumes", zh:"時蔬燉飯", price:"20€"}
       ]}
     ]
+  },
+  fiston: {
+    title: "Fiston - Bouchon Lyonnais",
+    sections: [
+      {name:"套餐 Menus", items:[
+        {fr:"Menu Lyonnais", zh:"沙拉＋主菜＋起司或甜點（二選一組合，任選其一）", price:"21.90€"},
+        {fr:"Menu Tradition", zh:"前菜＋主菜＋甜點（三道式，各二選一）", price:"28.90€"},
+        {fr:"Menu du Fiston", zh:"前菜＋主菜＋起司或甜點（招牌套餐，各二選一）", price:"37.90€"},
+        {fr:"Pour les plus jeunes", zh:"兒童餐：果汁+牛肉餅或雞肉+起司或冰淇淋", price:"13.90€"}
+      ]},
+      {name:"單點/分享 Seul ou à partager", items:[
+        {fr:"Plancha Fiston", zh:"主廚精選熱炒拼盤（可詢問當日內容）", price:"15.90€"},
+        {fr:"Assortiment de fromages", zh:"起司拼盤", price:"12.90€"},
+        {fr:"Foie gras de canard maison avec son chutney oignons", zh:"自製鴨肝醬配洋蔥果醬", price:"16.90€"},
+        {fr:"Os à moelle gratiné et ses toasts à l'ail", zh:"焗烤牛骨髓配蒜香吐司", price:"13.90€"}
+      ]},
+      {name:"開胃菜 Nos entrées", items:[
+        {fr:"Soupe à l'oignon en soufflé", zh:"法式洋蔥湯（舒芙蕾式）", price:"14.90€"},
+        {fr:"Salade de lentilles façon Fiston", zh:"Fiston 招牌扁豆沙拉", price:"13.90€"},
+        {fr:"Tatin de boudin noir", zh:"血腸反烤蘋果塔", price:"14.90€"},
+        {fr:"Oeuf meurette à la beaujolaise", zh:"薄酒萊紅酒醬水波蛋", price:"14.90€"}
+      ]},
+      {name:"沙拉 Nos salades", items:[
+        {fr:"LYONNAISE", zh:"里昂沙拉：番茄、培根、麵包丁、水波蛋", price:"14.90€"},
+        {fr:"FISTON", zh:"番茄、鴨肝、煙燻鴨胸、扁豆沙拉、洋蔥果醬", price:"18.90€"},
+        {fr:"SAINT JEAN", zh:"糖漬番茄、紅洋蔥、玉米、聖馬瑟林起司吐司", price:"15.90€"}
+      ]},
+      {name:"招牌菜 Nos incontournables", items:[
+        {fr:"Burger Fiston", zh:"招牌漢堡（手打牛肉排、培根、聖馬瑟林起司、糖漬番茄、洋蔥）", price:"17.90€"},
+        {fr:"Tagliatelles sauce aux cèpes", zh:"牛肝菌醬寬麵配伊比利火腿與帕瑪森起司", price:"17.90€"},
+        {fr:"Risotto crème de parmesan à la truffe et jambon blanc truffé", zh:"松露帕瑪森奶油燉飯配松露白火腿", price:"22.90€"},
+        {fr:"Camembert rôti au four, pommes de terre, jambon Serrano et salade", zh:"烤卡門貝爾起司配馬鈴薯、西班牙生火腿與沙拉", price:"19.90€"}
+      ]},
+      {name:"肉類 Nos viandes", items:[
+        {fr:"Paleron de boeuf mijoté 8h en cocotte et os à moelle", zh:"燉牛肩肉8小時佐牛骨髓", price:"20.90€"},
+        {fr:"Tartare de boeuf charolais coupé au couteau", zh:"手切夏洛萊牛肉韃靼", price:"19.90€"},
+        {fr:"Filet de poulet mariné sauce aux cèpes", zh:"醃漬雞胸佐牛肝菌醬", price:"22.90€"},
+        {fr:"Épaule de porcelet, jus réduit au miel", zh:"蜜汁豬肩肉", price:"22.90€"},
+        {fr:"Saucisson chaud sauce beaujolaise", zh:"熱香腸佐薄酒萊醬", price:"18.90€"},
+        {fr:"Andouillette sauce moutarde à l'ancienne", zh:"安都耶內臟香腸佐芥末醬", price:"19.90€"},
+        {fr:"Tablier de sapeur sauce gribiche", zh:"炸牛肚佐酸豆蛋黃醬", price:"18.90€"},
+        {fr:"Tête de veau revisitée, sauce vin rouge - échalote", zh:"創新版小牛頭肉佐紅酒紅蔥醬", price:"19.90€"}
+      ]},
+      {name:"魚類 Nos poissons", items:[
+        {fr:"Filet de daurade royale sauce beurre blanc", zh:"鯛魚菲力佐白奶油醬", price:"22.90€"},
+        {fr:"Quenelle de brochet sauce Nantua", zh:"梭子魚丸佐南特醬（螯蝦醬）", price:"19.90€"}
+      ]},
+      {name:"起司 Nos fromages", items:[
+        {fr:"Demi Saint-Marcellin affiné", zh:"半顆熟成聖馬瑟林起司", price:"6.90€"},
+        {fr:"Cervelle de Canut", zh:"里昂香草鮮起司", price:"5.90€"},
+        {fr:"Fromage blanc à la crème ou nature", zh:"鮮起司（原味或加鮮奶油）", price:"4.90€"},
+        {fr:"Assortiment de fromages", zh:"起司拼盤", price:"12.90€"}
+      ]},
+      {name:"甜點冰淇淋 Nos desserts et glaces", items:[
+        {fr:"Crème brûlée à la vanille", zh:"香草烤布蕾", price:"9€"},
+        {fr:"Tiramisu à la praline", zh:"帕林內提拉米蘇", price:"9€"},
+        {fr:"Mi-cuit au chocolat et sa boule de glace vanille", zh:"熔岩巧克力蛋糕配香草冰淇淋", price:"9€"},
+        {fr:"Mousse de marron", zh:"栗子慕斯", price:"9€"},
+        {fr:"Colonel：glace citron & vodka", zh:"檸檬雪酪配伏特加", price:"9€"},
+        {fr:"Vigneron：glace cassis & Marc égrappé", zh:"黑醋栗雪酪配渣釀白蘭地", price:"9€"},
+        {fr:"Café gourmand", zh:"咖啡搭迷你甜點", price:"10€"},
+        {fr:"Coupe gourmande", zh:"迷你甜點搭一杯香檳", price:"14€"},
+        {fr:"Get ou Limoncello gourmand", zh:"迷你甜點搭薄荷酒或檸檬酒", price:"14€"}
+      ]},
+      {name:"飲品 Boissons（節錄）", items:[
+        {fr:"Cocktails", zh:"經典調酒 Mojito/Negroni/Gin Tonic 等", price:"11-14€"},
+        {fr:"Bières", zh:"啤酒選項多款", price:"4-9€"},
+        {fr:"Apéritifs / Digestifs", zh:"餐前酒與餐後酒（香檳、威士忌、干邑等）", price:"4-20€"},
+        {fr:"Softs / Eaux", zh:"軟性飲料、氣泡水", price:"3.5-7€"},
+        {fr:"Boissons chaudes", zh:"咖啡、茶類", price:"2.4-12€"}
+      ]}
+    ]
+  },
+  terreAdelice: {
+    title: "Terre Adélice - 冰淇淋口味",
+    sections: [
+      {name:"La Délicatesse 細緻系列", items:[
+        {fr:"Abricot d'Ardèche et de la Drôme", zh:"阿爾代什/德龍杏桃"},
+        {fr:"Amande douce", zh:"甜杏仁"},
+        {fr:"Cassis de Rhône-Alpes", zh:"隆河-阿爾卑斯黑醋栗"},
+        {fr:"Châtaigne d'Ardèche aux marrons confits", zh:"阿爾代什栗子配蜜漬栗仁"},
+        {fr:"Clémentine de Corse", zh:"科西嘉小柑橘"},
+        {fr:"Coing d'Ardèche", zh:"阿爾代什榲桲"},
+        {fr:"Figue Violette de Provence", zh:"普羅旺斯紫無花果"},
+        {fr:"Fraise de France", zh:"法國草莓"},
+        {fr:"Framboise de la Drôme", zh:"德龍覆盆子"},
+        {fr:"Grenade d'Ardèche", zh:"阿爾代什石榴"},
+        {fr:"Groseille de la Drôme", zh:"德龍紅醋栗"},
+        {fr:"Melon de la Drôme", zh:"德龍哈密瓜"},
+        {fr:"Myrtille sauvage", zh:"野生藍莓"},
+        {fr:"Noisette du Piémont torréfiées", zh:"皮埃蒙特烘焙榛果"},
+        {fr:"Pastèque de la Drôme", zh:"德龍西瓜"},
+        {fr:"Pêche Blanche de la Drôme", zh:"德龍白桃"},
+        {fr:"Pêche de vigne d'Ardèche", zh:"阿爾代什葡萄園蜜桃"},
+        {fr:"Poire d'Ardèche", zh:"阿爾代什梨"},
+        {fr:"Pomelo de Corse", zh:"科西嘉葡萄柚"},
+        {fr:"Pomme Belle de Boskoop", zh:"波斯科普美人蘋果"},
+        {fr:"Rhubarbe d'Ardèche", zh:"阿爾代什大黃"}
+      ]},
+      {name:"Le Voyage 旅行系列", items:[
+        {fr:"Agar", zh:"洋菜（寒天）風味"},
+        {fr:"Ananas / RUPTURE", zh:"鳳梨"},
+        {fr:"Banane", zh:"香蕉"},
+        {fr:"Bergamote", zh:"佛手柑"},
+        {fr:"Café 100% Arabica", zh:"100%阿拉比卡咖啡"},
+        {fr:"Cannelle", zh:"肉桂"},
+        {fr:"Chocolat au lait A.Morin", zh:"A.Morin 牛奶巧克力"},
+        {fr:"Chocolat blanc A.Morin", zh:"A.Morin 白巧克力"},
+        {fr:"Chocolat noir A.Morin", zh:"A.Morin 黑巧克力"},
+        {fr:"Cocos", zh:"椰子"},
+        {fr:"Citron - Basilic", zh:"檸檬羅勒"},
+        {fr:"Citron vert - Menthe Feuille", zh:"萊姆薄荷葉"},
+        {fr:"Mangue", zh:"芒果"},
+        {fr:"Noix de coco", zh:"椰子仁"},
+        {fr:"Orange sanguine de Sicile", zh:"西西里血橙"},
+        {fr:"Passion", zh:"百香果"},
+        {fr:"Pistache", zh:"開心果"},
+        {fr:"Sadichi - Agrume vert du Japon", zh:"日本酢橘"},
+        {fr:"Vanille gousse de Madagascar", zh:"馬達加斯加香草莢"},
+        {fr:"Vanille glacée au lait végétal", zh:"植物奶香草冰"}
+      ]},
+      {name:"Le Raffinement 精緻系列", items:[
+        {fr:"Blé d'Ardèche", zh:"阿爾代什小麥"},
+        {fr:"Gingembre aux morceaux confits", zh:"糖漬薑塊"},
+        {fr:"Hibiscus - Menthe façon 'Blucaji'", zh:"洛神花薄荷風味"},
+        {fr:"Lavande de la Drôme", zh:"德龍薰衣草"},
+        {fr:"Menthe Feuille roulée au chocolat noir", zh:"薄荷葉捲黑巧克力"},
+        {fr:"Confiture de lait", zh:"焦糖牛奶醬"},
+        {fr:"Cookies", zh:"餅乾"},
+        {fr:"Cacao de gariguette et cerises confites", zh:"可可配加里蓋特草莓與糖漬櫻桃"},
+        {fr:"Framboise au Rhum agricole", zh:"覆盆子農業蘭姆酒"},
+        {fr:"Miel-romarin", zh:"蜂蜜迷迭香"},
+        {fr:"Nougat de Montélimar aux éclats d'amande et de pistache", zh:"蒙特利馬爾牛軋糖配杏仁開心果碎"},
+        {fr:"Poivre bretzel", zh:"胡椒椒鹽脆餅"},
+        {fr:"Praliné A.Morin", zh:"A.Morin 帕林內"},
+        {fr:"Praline Rose", zh:"里昂粉紅果仁糖"},
+        {fr:"Réglisse Bâton", zh:"甘草棒"},
+        {fr:"Riz au lait de pot de terre du Rhum", zh:"陶罐蘭姆牛奶米布丁"},
+        {fr:"Spéculoos", zh:"荷式肉桂餅乾"},
+        {fr:"Stracciatella - Pot de lait/Copeau de chocolat noir", zh:"史特拉奇亞泰拉（牛奶配黑巧克力碎片）"},
+        {fr:"Tiramisu à l'Amaretto", zh:"杏仁酒提拉米蘇"}
+      ]},
+      {name:"L'Audace 大膽系列", items:[
+        {fr:"Fromage Blanc de Chèvrerie", zh:"山羊乳鮮起司"},
+        {fr:"Lard Fumé et ses inclusions fumées", zh:"煙燻培根配煙燻內餡"},
+        {fr:"Poivron Marmarts confits d'Ardèche et de la Drôme", zh:"阿爾代什/德龍糖漬甜椒"},
+        {fr:"Roquefort et sa réduction de vin", zh:"羅克福藍紋起司配紅酒醬汁"},
+        {fr:"Tomate - Basilic d'Ardèche et de la Drôme", zh:"阿爾代什/德龍番茄羅勒"},
+        {fr:"Truite fumée d'Ardèche", zh:"阿爾代什煙燻鱒魚"},
+        {fr:"Yaourt", zh:"優格"},
+        {fr:"Yaourt de brebis d'Ardèche", zh:"阿爾代什綿羊優格"}
+      ]},
+      {name:"La Célébration 慶典系列", items:[
+        {fr:"Pastis de Provence", zh:"普羅旺斯茴香酒"},
+        {fr:"Rhum raisin", zh:"蘭姆葡萄乾"}
+      ]},
+      {name:"Nos offres 份量與價格", items:[
+        {fr:"1 boule (cornet ou pot)", zh:"單球（甜筒或杯裝）"},
+        {fr:"2 boules (cornet ou pot)", zh:"雙球"},
+        {fr:"3 boules (cornet ou pot)", zh:"三球"},
+        {fr:"4 boules (cornet ou pot)", zh:"四球"},
+        {fr:"6 boules dégustation (palette)", zh:"六球品嚐拼盤"}
+      ]},
+      {name:"Suppléments 加購", items:[
+        {fr:"Chantilly maison", zh:"自製鮮奶油"},
+        {fr:"Nappage caramel à la crème salée", zh:"鹹奶油焦糖醬"},
+        {fr:"Nappage chocolat noir maison", zh:"自製黑巧克力醬"},
+        {fr:"Coulis Framboise / Coulis Myrtille sauvage / Coulis Mangue-passion", zh:"覆盆子／野生藍莓／芒果百香果果泥醬"}
+      ]}
+    ]
+  },
+  bouchonDuPalais: {
+    title: "Le Bouchon Du Palais",
+    sections: [
+      {name:"套餐選擇 Formules", items:[
+        {fr:"Plat & Dessert", zh:"主菜＋甜點", price:"27€"},
+        {fr:"Entrée & Plat", zh:"前菜＋主菜", price:"27€"},
+        {fr:"Entrée, Plat & Dessert", zh:"前菜＋主菜＋甜點（三道式全餐）", price:"32€"}
+      ]},
+      {name:"Les Entrées 前菜", items:[
+        {fr:"6 gros escargots dans leurs coquilles", zh:"6顆田螺（原殼）"},
+        {fr:"Duo d'Œufs en meurette", zh:"雙份紅酒醬水波蛋"},
+        {fr:"Croustillants à l'Époisses", zh:"艾波瓦斯起司酥皮捲"},
+        {fr:"Terrine maison", zh:"自製肉派（自家版本Pâté）"},
+        {fr:"Salade de lentilles avec ou sans harengs", zh:"扁豆沙拉（可選配鯡魚）"}
+      ]},
+      {name:"Les Plats 主菜", items:[
+        {fr:"Camembert frit et sa confiture de myrtille", zh:"炸卡門貝爾起司配藍莓果醬"},
+        {fr:"Le poulet façon Madame Gaston Gérard", zh:"加斯東傑哈夫人風味雞（奶油、康堤起司、芥末、紅椒粉醬）"},
+        {fr:"Coq au vin à l'ancienne", zh:"傳統紅酒燉公雞"},
+        {fr:"Authentique andouillette de veau «Bobosse»", zh:"正宗「Bobosse」小牛內臟香腸"},
+        {fr:"Tête de veau sauce gribiche", zh:"小牛頭肉佐酸豆蛋黃醬"},
+        {fr:"Gras Double à la lyonnaise", zh:"里昂風味炒牛肚"},
+        {fr:"Véritable quenelle lyonnaise maison Bobosse", zh:"Bobosse 自製正宗里昂魚丸"}
+      ]},
+      {name:"Nos Vins 酒單（節錄）", items:[
+        {fr:"紅酒 Rouge", zh:"Beaujolais、Bourgogne、Côteaux du Lyonnais 等，每杯12.5cl起", price:"5-69€（依酒款）"},
+        {fr:"白酒 Blanc", zh:"Aligoté、Petit Chablis、Mâcon blanc 等", price:"5-39€（依酒款）"},
+        {fr:"粉紅酒 Rosé", zh:"Rosé selon nos envies、Marsannay la Côte", price:"5-31€（依酒款）"}
+      ]},
+      {name:"Nos autres boissons 其他飲品", items:[
+        {fr:"Vrai Kir / Communard", zh:"經典基爾酒（阿里哥蝶酒或薄酒萊配黑醋栗酒）", price:"5.5€"},
+        {fr:"Pression 25cl/50cl", zh:"生啤酒", price:"5/8€"},
+        {fr:"Picon bière", zh:"皮康啤酒", price:"6€"},
+        {fr:"Crémant de Bourgogne", zh:"勃根地氣泡酒", price:"7/45€"},
+        {fr:"Champagne", zh:"香檳", price:"9/75€"},
+        {fr:"French Coffee / Digestifs", zh:"法式咖啡／餐後酒", price:"9-10€"},
+        {fr:"Boissons non alcolisées", zh:"無酒精飲料（可樂、沛綠雅、柳橙汁等）", price:"3.5€"}
+      ]}
+    ]
+  },
+  vietNamImpressions: {
+    title: "VIET NAM IMPRESSIONS",
+    sections: [
+      {name:"套餐 Menu 15€", items:[
+        {fr:"Entrée au choix", zh:"前菜任選：越式炸春捲（豬肉或蔬食）或小份牛肉河粉"},
+        {fr:"Plat au choix", zh:"主菜任選：檸檬香茅牛肉／雞肉／焦糖豬肉（配飯或米粉），或 Bò bún (n11/12/15)，或河粉 (n18/19)"},
+        {fr:"Dessert au choix", zh:"甜點任選：椰奶香蕉、法式牛軋糖、糖漿荔枝"}
+      ]},
+      {name:"Les Entrées 前菜", items:[
+        {fr:"1- Nems - chả giò", zh:"炸春捲（冬粉、紅蘿蔔、洋蔥、蛋、黑木耳），可選豬肉或蔬食", price:"4€"},
+        {fr:"2- Rouleau de printemps - gỏi cuốn", zh:"越式生春捲（冬粉、生菜、薄荷、豆芽），可選蝦或牛肉", price:"4€"},
+        {fr:"3- Beignets de crevettes", zh:"炸蝦餅", price:"7€"},
+        {fr:"4- Crêpes vietnamiennes - Bánh cuốn", zh:"越式煎粿（豬肉餡）", price:"6.5€"},
+        {fr:"5- Salade de nems", zh:"炸春捲沙拉，可選豬肉或蔬食", price:"4.5€"},
+        {fr:"6- Salade de papaye - gỏi đu đủ", zh:"青木瓜沙拉（雞肉、紅蘿蔔、薄荷）", price:"8.5€"},
+        {fr:"7- Légumes sautés", zh:"炒時蔬（豆芽、花椰菜、芹菜、紅蘿蔔、四季豆）", price:"6.5€"},
+        {fr:"8- Soupe de vermicelles aux crevettes", zh:"檸檬香茅蝦仁米粉湯", price:"7€"},
+        {fr:"9- Phở petit", zh:"迷你河粉湯", price:"7€"}
+      ]},
+      {name:"Les Grandes Soupes 大份湯品", items:[
+        {fr:"18- Phở bò", zh:"越式牛肉河粉湯（75cl）", price:"13.5€"},
+        {fr:"19- Phở gà", zh:"越式雞肉河粉湯（75cl）", price:"13.5€"},
+        {fr:"20- Soupe de vermicelle aux crevettes", zh:"檸檬香茅蝦仁米粉湯（75cl）", price:"13.5€"}
+      ]},
+      {name:"Les Plats - Les Viandes 肉類主菜", items:[
+        {fr:"21- Bœuf aux oignons", zh:"洋蔥炒牛肉（150g）", price:"14.5€"},
+        {fr:"22- Bœuf sauté au basilic（épicé）", zh:"羅勒炒牛肉（辣）", price:"14.5€"},
+        {fr:"23- Bœuf sauté au saté（épicé）", zh:"沙嗲炒牛肉（辣）", price:"14.5€"},
+        {fr:"24- Bœuf sauté à la citronnelle", zh:"香茅炒牛肉", price:"13€"},
+        {fr:"25- Porc au caramel", zh:"焦糖豬肉", price:"11.5€"}
+      ]},
+      {name:"Les Volailles 雞肉料理", items:[
+        {fr:"26- Poulet sauté au basilic（épicé）", zh:"羅勒炒雞肉（辣）", price:"12.5€"},
+        {fr:"27- Poulet au lait de coco", zh:"椰奶雞肉", price:"12.5€"},
+        {fr:"28- Poulet sauté au curry et lait de coco", zh:"椰奶咖哩炒雞肉", price:"12.5€"},
+        {fr:"29- Poulet à la citronnelle", zh:"香茅雞肉", price:"11.5€"}
+      ]},
+      {name:"Crevettes 蝦料理", items:[
+        {fr:"30- Crevettes à la citronnelle", zh:"香茅蝦", price:"15€"},
+        {fr:"31- Crevettes sautées au basilic（épicé）", zh:"羅勒炒蝦（辣）", price:"15€"},
+        {fr:"32- Crevettes au lait de coco", zh:"椰奶蝦", price:"15€"},
+        {fr:"33- Nouilles de riz sautées aux crevettes", zh:"炒河粉配蝦", price:"16.5€"}
+      ]},
+      {name:"Accompagnements 配菜", items:[
+        {fr:"34- Riz Nature", zh:"白飯", price:"2.5€"},
+        {fr:"35- Riz Sauté à l'œuf", zh:"蛋炒飯", price:"5€"},
+        {fr:"36- Vermicelles Natures", zh:"原味米粉", price:"2.5€"},
+        {fr:"37- Légumes Sautés", zh:"炒時蔬", price:"6€"}
+      ]},
+      {name:"Les Grands Plats（tièdes）溫沙拉套餐", items:[
+        {fr:"11- Bò bún au bœuf", zh:"牛肉涼拌米線（配2份炸春捲：豬肉或蔬食）", price:"13€"},
+        {fr:"12- Bò bún au poulet", zh:"雞肉涼拌米線", price:"13€"},
+        {fr:"13- Bò bún aux crevettes", zh:"蝦仁涼拌米線", price:"13€"},
+        {fr:"14- Bò bún aux crevettes（2 nems）", zh:"蝦仁涼拌米線（雙份炸春捲）", price:"14.5€"}
+      ]},
+      {name:"Végétariens 素食", items:[
+        {fr:"15- Bò bún au tofu", zh:"豆腐涼拌米線（雙份蔬食炸春捲）", price:"13€"},
+        {fr:"16- Tofu sauté", zh:"炒豆腐（番茄或香茅風味，配飯或米粉）", price:"13€"},
+        {fr:"17- Nouilles de riz sautées aux légumes", zh:"炒河粉配時蔬", price:"13€"}
+      ]},
+      {name:"備註 Notes", items:[
+        {fr:"Origine des viandes：Boeuf FR / Poulet BEL,UA / Porc FR", zh:"肉品產地：牛肉法國、雞肉比利時/烏克蘭、豬肉法國"},
+        {fr:"Cuisine sans glutamate", zh:"料理不使用味精，皆為新鮮食材製作"}
+      ]}
+    ]
+  },
+  sugoParis: {
+    title: "SUGO pasta fresca - Château d'Eau",
+    sections: [
+      {name:"MENU DÉJEUNER 午餐菜單 - Antipasti 開胃菜", items:[
+        {fr:"OLIVES VERTES", zh:"普利亞「Bella di Cerignola」青橄欖", price:"4€"},
+        {fr:"MOZZA & TOMATES SÉCHÉES", zh:"水牛莫札瑞拉起司（Nanina, Paris）配普利亞小番茄乾", price:"10€"},
+        {fr:"TONNO & RICOTTA", zh:"鮪魚醬配檸檬瑞可塔起司、羅勒、酸豆", price:"11€"},
+        {fr:"GASPACCIO TOSCANO", zh:"托斯卡尼番茄冷湯配蒜香麵包丁、醃芥末籽、羅勒", price:"9€"},
+        {fr:"POLPETTE", zh:"小牛肉丸配蘇苟番茄醬與帕瑪森起司", price:"12€"}
+      ]},
+      {name:"MENU DÉJEUNER 午餐菜單 - Pasta 義大利麵", items:[
+        {fr:"PESTO", zh:"羅勒青醬義大利麵，配帕瑪森、佩科里諾起司、大蒜、西西里杏仁、義大利橄欖油", price:"15€"},
+        {fr:"SUGO", zh:"蘇苟番茄醬義大利麵，薩丁尼亞番茄烤製，配橄欖油、大蒜、黑胡椒", price:"12€"},
+        {fr:"RAGÙ", zh:"安格斯牛肉絲燉肉醬義大利麵，配蘇苟醬與義式香草麵包粉", price:"15€"},
+        {fr:"AMATRICIANA", zh:"阿瑪翠奇亞納義大利麵：蘇苟醬配風乾豬頰肉、佩科里諾起司、烘烤黑胡椒", price:"15€"},
+        {fr:"CACIO E PEPE", zh:"起司黑胡椒義大利麵（佩科里諾起司、烘烤黑胡椒）", price:"15€"},
+        {fr:"CARBONARA", zh:"卡邦拉義大利麵：佩科里諾起司、帕瑪森起司、蛋、黑胡椒、風乾豬頰肉", price:"16€"}
+      ]},
+      {name:"MENU DÎNER + WE + JOURS FÉRIÉS 晚餐/週末/國定假日菜單 - Antipasti", items:[
+        {fr:"OLIVES VERTES", zh:"普利亞「Bella di Cerignola」青橄欖", price:"4€"},
+        {fr:"MOZZA & TOMATES SÉCHÉES", zh:"水牛莫札瑞拉起司配普利亞小番茄乾", price:"10€"},
+        {fr:"TONNO & RICOTTA", zh:"鮪魚醬配檸檬瑞可塔起司、羅勒、酸豆", price:"11€"},
+        {fr:"GASPACCIO TOSCANO", zh:"托斯卡尼番茄冷湯配蒜香麵包丁、醃芥末籽、羅勒", price:"9€"},
+        {fr:"POLPETTE", zh:"小牛肉丸配蘇苟番茄醬與帕瑪森起司", price:"12€"}
+      ]},
+      {name:"MENU DÎNER + WE + JOURS FÉRIÉS 晚餐/週末/國定假日菜單 - Pasta", items:[
+        {fr:"PESTO", zh:"羅勒青醬義大利麵", price:"17€"},
+        {fr:"SUGO", zh:"蘇苟番茄醬義大利麵", price:"15€"},
+        {fr:"RAGÙ", zh:"安格斯牛肉絲燉肉醬義大利麵", price:"18€"},
+        {fr:"AMATRICIANA", zh:"阿瑪翠奇亞納義大利麵", price:"17€"},
+        {fr:"CACIO E PEPE", zh:"起司黑胡椒義大利麵", price:"17€"},
+        {fr:"CARBONARA", zh:"卡邦拉義大利麵", price:"18€"}
+      ]},
+      {name:"Dolci 甜點（午晚餐皆適用）", items:[
+        {fr:"PANNA COTTA", zh:"義式奶酪配橙花水與西西里布龍特開心果帕林內", price:"6€"},
+        {fr:"TIRAMISU", zh:"提拉米蘇：濃郁馬斯卡彭起司、正宗手指餅乾、咖啡、Cacao Barry巧克力", price:"7€"},
+        {fr:"TORTA CAPRESE", zh:"卡布里巧克力蛋糕：64% Cacao Barry巧克力、生乳奶油、杏仁粉", price:"7€"},
+        {fr:"GLACE OU SORBET（Enzo & Lily）", zh:"冰淇淋或雪酪：開心果冰淇淋、檸檬雪酪、巧克力雪酪", price:"4€"},
+        {fr:"SGROPPINO", zh:"檸檬雪酪氣泡飲，佐一份 Mamma Mia 檸檬酒", price:"8€"}
+      ]},
+      {name:"SEMAINIER DÉJEUNER 午餐每日限定麵（15€）", items:[
+        {fr:"Lundi - ALFREDO CITRON", zh:"週一：帕瑪森、佩科里諾起司、Borniambuc鹹奶油、現榨檸檬汁"},
+        {fr:"Mardi - CARBONARA NDUJA", zh:"週二：Nduja卡拉布里亞辣香腸、佩科里諾與帕瑪森起司、蛋、黑胡椒、風乾豬頰肉"},
+        {fr:"Mercredi - PESTO ROSSO", zh:"週三：蘇苟醬、番茄乾、帕瑪森與佩科里諾起司、西西里杏仁"},
+        {fr:"Jeudi - LASAGNA", zh:"週四：熟成30天安格斯牛肉燉醬千層麵，配蘇苟醬、白醬、帕瑪森起司"},
+        {fr:"Vendredi - RAGÙ SAUCISSE À L'ORANGE", zh:"週五：Le Bourdonnec香腸肉燉醬，配佩科里諾起司、橙汁、蒔蘿"},
+        {fr:"Samedi - RUGGINE", zh:"週六：青醬配蘇苟醬與塔吉亞斯凱橄欖（利古里亞風味）"},
+        {fr:"Dimanche - ARRABBIATA SAUCISSE", zh:"週日：蘇苟醬配辣椒、Le Bourdonnec香腸肉、佩科里諾起司"}
+      ]},
+      {name:"SEMAINIER DÎNER + WE + JOURS FÉRIÉS 晚餐/週末每日限定麵（18€）", items:[
+        {fr:"Lundi - ALFREDO CITRON", zh:"週一：帕瑪森、佩科里諾起司、Borniambuc鹹奶油、現榨檸檬汁"},
+        {fr:"Mardi - CARBONARA NDUJA", zh:"週二：Nduja卡拉布里亞辣香腸、佩科里諾與帕瑪森起司、蛋、黑胡椒、風乾豬頰肉"},
+        {fr:"Mercredi - PESTO ROSSO", zh:"週三：蘇苟醬、番茄乾、帕瑪森與佩科里諾起司、西西里杏仁"},
+        {fr:"Jeudi - LASAGNA", zh:"週四：熟成30天安格斯牛肉燉醬千層麵，配蘇苟醬、白醬、帕瑪森起司"},
+        {fr:"Vendredi - RAGÙ SAUCISSE À L'ORANGE", zh:"週五：Le Bourdonnec香腸肉燉醬，配佩科里諾起司、橙汁、蒔蘿"},
+        {fr:"Samedi - RUGGINE", zh:"週六：青醬配蘇苟醬與塔吉亞斯凱橄欖（利古里亞風味）"},
+        {fr:"Dimanche - ARRABBIATA SAUCISSE", zh:"週日：蘇苟醬配辣椒、Le Bourdonnec香腸肉、佩科里諾起司"}
+      ]},
+      {name:"BOISSONS - Cocktails 調酒（每杯12€）", items:[
+        {fr:"Hugo Spritz (St Germain) / Limoncello Spritz / Aperol Spritz / Campari Spritz", zh:"雨果氣泡酒／檸檬酒氣泡酒／艾普羅氣泡酒／坎帕利氣泡酒"},
+        {fr:"Negroni / Moscow Mule / Gin Tonic", zh:"內格羅尼／莫斯科騾子／琴通寧"},
+        {fr:"Espresso Martini / Amaretto Sour / Caffè Leccese", zh:"濃縮咖啡馬丁尼／杏仁酒酸酒／萊切咖啡調酒"}
+      ]},
+      {name:"BOISSONS - 啤酒／無酒精", items:[
+        {fr:"Peroni 33cl（瓶裝）", zh:"佩羅尼啤酒（瓶裝）", price:"6€"},
+        {fr:"Moretti 33cl（生啤）", zh:"莫雷蒂生啤酒", price:"6€"},
+        {fr:"Peroni 0.0", zh:"佩羅尼無酒精啤酒", price:"5€"},
+        {fr:"El Tony Maté", zh:"馬黛茶氣泡飲", price:"6€"},
+        {fr:"Mocktail orange sanguine", zh:"血橙無酒精調飲", price:"8€"},
+        {fr:"Spritz 0.0 IESSI", zh:"無酒精氣泡飲", price:"8€"}
+      ]},
+      {name:"BOISSONS - Digestif 5cl 餐後酒", items:[
+        {fr:"Limoncello Mamma Mia（Pouilles）", zh:"普利亞檸檬酒", price:"7€"},
+        {fr:"Grappa Bassano Poli", zh:"格拉帕渣釀白蘭地", price:"6€"},
+        {fr:"Grappa Poli - vieillie fûts de chêne", zh:"橡木桶陳年格拉帕", price:"8€"},
+        {fr:"Amaretto（bianco ou tostato）", zh:"杏仁酒（原味或烘烤版）", price:"7€"}
+      ]},
+      {name:"BOISSONS - Soft 軟性飲料", items:[
+        {fr:"LURISIA（義大利天然氣泡飲）", zh:"血橙／橙味／苦橙氣泡飲", price:"5€"},
+        {fr:"UMA（法國天然冷泡茶）", zh:"羅勒萊姆綠茶／肉桂蜜桃博士茶／檸檬水／薑汁汽水", price:"5€"},
+        {fr:"MENEAU（法國有機果汁）", zh:"渾濁蘋果汁／杏桃／覆盆莓草莓"},
+        {fr:"Mole Cola（含糖或無糖）", zh:"可樂", price:"5€"},
+        {fr:"Eau pétillante 75cl / Eau Plate Evian 75cl", zh:"氣泡水／Evian礦泉水", price:"6€"}
+      ]},
+      {name:"BOISSONS - Vini 酒單（杯/壺/瓶）", items:[
+        {fr:"Bulles：Valmarone Prosecco extra dry（VENETO）", zh:"氣泡酒", price:"6/22/30€"},
+        {fr:"Bulles：Furlani Alpino bianco（TRENTINO）", zh:"氣泡酒", price:"40€"},
+        {fr:"Blanc：Tule Terre Siciliane Catarratto（SICILIA）", zh:"白酒", price:"6/22/30€"},
+        {fr:"Blanc：San Marzano Il Pumo（PUGLIA）", zh:"白酒", price:"6/22/30€"},
+        {fr:"Blanc：La Distesa Terre Silvate Verdicchio（MARCHE）", zh:"白酒", price:"38€"},
+        {fr:"Rouge：Monte Dall'Ora Disobbediente（VALPOLICELLA）", zh:"紅酒", price:"6/22/45€（1公升）"},
+        {fr:"Rouge：Tule Sicilia Nero d'avola（SICILIA）", zh:"紅酒", price:"6/22/30€"},
+        {fr:"Rouge：San Marzano Naca Primitivo（PUGLIA）", zh:"紅酒", price:"6/22/30€"},
+        {fr:"Rouge：Majnoni Chianti（TOSCANA）", zh:"紅酒", price:"7/26/36€"},
+        {fr:"Rouge：Radici e Filari La Matota Barbera d'Asti（PIEMONTE）", zh:"紅酒", price:"40€"},
+        {fr:"Rouge：Feuduccio Ursonia Montepulciano d'Abruzzo（ABRUZZO）", zh:"紅酒", price:"60€"},
+        {fr:"Rosé：La Sogara Chiaretto di Bardolino（VENETO）", zh:"粉紅酒", price:"6/22/30€"},
+        {fr:"Orange：Sassara Vin Da Cagnara Garganega（VENETO）", zh:"橘酒", price:"7/26/45€（1公升）"},
+        {fr:"Orange：Bambara Terre Siciliane Catarratto（SICILIA）", zh:"橘酒", price:"7/26/36€（1公升）"}
+      ]}
+    ]
+  },
+  cafeBiboune: {
+    title: "Café Biboune",
+    sections: [
+      {name:"早餐 Le petit-déjeuner（8:30-11:00，週六至15:00）", items:[
+        {fr:"Granola maison, yaourt grec, fruit de saison", zh:"自製穀物脆片配希臘優格、當季水果、有機果糖漿、金盞花", price:"12€"},
+        {fr:"Buttermilk biscuit, œufs brouillés, lard grillé", zh:"白脫牛奶比司吉配炒蛋、烤培根、時令生菜", price:"13€"},
+        {fr:"Buttermilk biscuit, confiture bio", zh:"白脫牛奶比司吉配有機果醬、花生醬、當季水果", price:"10€"},
+        {fr:"Porridge d'orge, zestes d'agrumes", zh:"大麥燕麥粥配柑橘皮絲、糖漿、當季水果、芝麻", price:"10€"}
+      ]},
+      {name:"午餐 Le déjeuner（12:00-15:00）", items:[
+        {fr:"Croquettes de crabe et lieu noir", zh:"蟹肉黑鱈魚可樂餅配石榴籽沙拉、芹菜、蘋果、塔塔醬", price:"18€"},
+        {fr:"Tourte aux blettes et épinards frais", zh:"瑞士甜菜與菠菜派（香草、蛋、松子、艾曼塔起司、帕瑪森）", price:"18€"},
+        {fr:"Salade de kacha（sarrasin）", zh:"蕎麥沙拉配豬肉/牛肉丸、茴香籽、季節時蔬", price:"15€"},
+        {fr:"Grilled cheese au cheddar et Saint Nectaire", zh:"切達與聖內克泰爾起司熱三明治配洋蔥果醬", price:""}
+      ]},
+      {name:"甜點糕點 Les desserts et pâtisseries", items:[
+        {fr:"Cookie chocolat 70% et chocolat blanc", zh:"70%黑巧克力配白巧克力餅乾", price:"3.5€"},
+        {fr:"Cookie sarrasin choco blanc et canneberges", zh:"蕎麥白巧克力蔓越莓餅乾", price:"3.5€"},
+        {fr:"Marbré au chocolat 65%", zh:"65%巧克力大理石蛋糕", price:"4.5€"},
+        {fr:"Moelleux aux fruits de saison", zh:"當季水果軟蛋糕", price:"6€"},
+        {fr:"Buttermilk biscuit (nature)", zh:"原味白脫牛奶比司吉", price:"5€"},
+        {fr:"Roulé confiture bio", zh:"有機果醬蛋糕捲（週五六附鮮奶油）", price:"5-5.5€"},
+        {fr:"Roulé à la cannelle", zh:"肉桂捲（週五六限定）", price:"5€"},
+        {fr:"Yaourt aux fruits frais et sirop bio", zh:"優格配新鮮水果與有機糖漿", price:"4€"}
+      ]},
+      {name:"熱飲 Les boissons chaudes", items:[
+        {fr:"Espresso", zh:"濃縮咖啡", price:"3€"},
+        {fr:"Double espresso, americano", zh:"雙倍濃縮／美式咖啡", price:"4€"},
+        {fr:"Cold brew", zh:"冷萃咖啡", price:"5€"},
+        {fr:"Noisette", zh:"諾瓦塞特（少量奶濃縮咖啡）", price:"4€"},
+        {fr:"Cortado", zh:"短笛咖啡", price:"4.5€"},
+        {fr:"Latte / Cappuccino", zh:"拿鐵／卡布奇諾", price:"5€"},
+        {fr:"Flat White / Mocha", zh:"平白咖啡／摩卡", price:"5.5€"},
+        {fr:"Les thés", zh:"茶類（雲南滇紅、佛手柑倫敦藍茶、抹茶、玄米茶等）", price:"6€"},
+        {fr:"Chocolat chaud", zh:"熱巧克力", price:"6€"}
+      ]},
+      {name:"冷飲 Les boissons fraîches", items:[
+        {fr:"Eau pétillante 50cl", zh:"氣泡水", price:"4€"},
+        {fr:"Jus de fruits frais bio", zh:"有機現榨果汁（多種口味）", price:"6€"},
+        {fr:"Lemonaid citron gingembre", zh:"檸檬薑汁氣泡飲", price:"6€"},
+        {fr:"Kombucha", zh:"康普茶（原味或黑醋栗）", price:"7€"},
+        {fr:"Bières bio", zh:"有機啤酒（Pilsner／IPA）", price:"7€"},
+        {fr:"Vins bio", zh:"有機酒（Chardonnay、Côtes du Rhône等）", price:"6€/杯"}
+      ]}
+    ]
   }
 };
 
@@ -737,6 +1178,17 @@ function dirUrl(origin,dest,transport){
   if(transport && transport.indexOf("步行")!==-1) mode = "walking";
   return "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(dest) + "&travelmode=" + mode;
 }
+function dirMultiUrl(stops, mode){
+  if(!stops || stops.length < 2) return null;
+  const points = stops.map(s=>s.map);
+  const origin = points[0];
+  const destination = points[points.length-1];
+  const waypoints = points.slice(1, -1);
+  let url = "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination);
+  if(waypoints.length) url += "&waypoints=" + waypoints.map(encodeURIComponent).join("%7C");
+  url += "&travelmode=" + (mode || "walking");
+  return url;
+}
 
 const days = [
 {n:1,date:"9/11",wd:"五",city:"transit",title:"台北 → 巴黎",sub:"長榮 BR87",accom:"機上過夜",budget:"機票已購，不列入每日花費",items:[
@@ -758,8 +1210,8 @@ const days = [
   {time:"—",a:"富維耶聖母院、古羅馬劇場",transport:"建議搭纜車上山（坡度大，不建議純走路）",note:"TCL €2.10",map:"Basilique Notre-Dame de Fourviere"},
   {time:"—",a:"買甜點 Grains de Sucres",transport:"步行",map:"Grains de Sucres Lyon"},
   {time:"—",a:"Jardin des Curiosités",transport:"步行順古爾吉永坡下山到舊城區 traboules",map:"Jardin des Curiosites Lyon"},
-  {time:"—",a:"午/晚餐 Fiston - Bouchon Lyonnais",transport:"步行",note:"假日現場候位，建議提早到",map:"Fiston Bouchon Lyonnais Lyon"},
-  {time:"—",a:"Gelato：Terre Adélice",transport:"步行",map:"Terre Adelice Lyon"},
+  {time:"—",a:"午/晚餐 Fiston - Bouchon Lyonnais",transport:"步行",note:"假日現場候位，建議提早到",map:"Fiston Bouchon Lyonnais Lyon",menu:"fiston"},
+  {time:"—",a:"Gelato：Terre Adélice",transport:"步行",map:"Terre Adelice Lyon",menu:"terreAdelice"},
   {time:"—",a:"紅十字山區 Croix-Rousse",transport:"建議搭纜車/地鐵上山（坡度大）",note:"TCL €2.10",map:"Croix-Rousse Lyon"}
 ]},
 {n:4,date:"9/14",wd:"一",city:"dijon",title:"里昂 → 第戎",sub:"入住第戎",accom:"Dijon bnb｜5 Rue du Chapeau Rouge, 21000 Dijon",budget:"火車已付 + 餐飲",items:[
@@ -774,7 +1226,20 @@ const days = [
 ]},
 {n:5,date:"9/15",wd:"二",city:"dijon",title:"第戎市區觀光",sub:"貓頭鷹步道",accom:"Dijon bnb",budget:"步道免費 + 餐飲 + 少量購物",items:[
   {time:"09:00",a:"Halles centrales 中央市場",transport:"步行",note:"營業時間7-13點，推薦 Jambon persillé 歐芹火腿凍",map:"Halles de Dijon"},
-  {time:"09:00",a:"貓頭鷹步道 Parcours de la Chouette（觀光路線，非單一地點，全程約3公里/22站，約1小時）",transport:"步行全程，沿地面銅製貓頭鷹箭頭標誌走",note:"主要站點：① Rue des Forges古宅群 ② 第戎聖母院（摸貓頭鷹許願）③ 勃根地公爵宮 Palais des Ducs ④ 解放廣場 Place de la Libération ⑤ 聖米歇爾教堂/Musée Rude ⑥ Square des Ducs ⑦ Grangier廣場/郵政總局 ⑧ 達西花園 Jardin Darcy ⑨ 聖伯尼涅大教堂 ⑩ 美術館 ⑪ 聖讓教堂 ⑫ 聖菲利貝爾教堂　（2011年後新增延伸迴圈：讓－雅克盧梭區/古董商街、摩西之井與尚莫爾修道院、軍械庫公園）",map:"Office de Tourisme Dijon"},
+  {time:"09:00",a:"貓頭鷹步道 Parcours de la Chouette（觀光路線，非單一地點，全程約3公里/22站，約1小時）",transport:"步行全程，沿地面銅製貓頭鷹箭頭標誌走",note:"以下每一站點開後會顯示從上一站步行過去的路線；起點為第戎旅遊服務中心",stops:[
+    {name:"① Hôtel Chambellan（Rue des Forges古宅群）",map:"34 Rue des Forges, 21000 Dijon, France",origin:"11 Rue des Forges, 21000 Dijon, France"},
+    {name:"② 第戎聖母院",map:"2 Place Notre Dame, 21000 Dijon, France",origin:"34 Rue des Forges, 21000 Dijon, France"},
+    {name:"③ 勃根地公爵宮",map:"1 Rue Rameau, 21000 Dijon, France",origin:"2 Place Notre Dame, 21000 Dijon, France"},
+    {name:"④ 解放廣場",map:"Place de la Liberation, 21000 Dijon, France",origin:"1 Rue Rameau, 21000 Dijon, France"},
+    {name:"⑤ 聖米歇爾教堂",map:"5 Place Saint-Michel, 21000 Dijon, France",origin:"Place de la Liberation, 21000 Dijon, France"},
+    {name:"⑥ Musée Rude",map:"8 Rue Vaillant, 21000 Dijon, France",origin:"5 Place Saint-Michel, 21000 Dijon, France"},
+    {name:"⑦ Grangier廣場/郵政總局",map:"Place Grangier, 21000 Dijon, France",origin:"8 Rue Vaillant, 21000 Dijon, France"},
+    {name:"⑧ 達西花園",map:"Place Darcy, 21000 Dijon, France",origin:"Place Grangier, 21000 Dijon, France"},
+    {name:"⑨ 聖伯尼涅大教堂",map:"Place Saint Benigne, 21000 Dijon, France",origin:"Place Darcy, 21000 Dijon, France"},
+    {name:"⑩ 美術館",map:"Place de la Sainte-Chapelle, 21000 Dijon, France",origin:"Place Saint Benigne, 21000 Dijon, France"},
+    {name:"⑪ 聖讓劇場（原聖讓教堂）",map:"1 Rue Brulard, 21000 Dijon, France",origin:"Place de la Sainte-Chapelle, 21000 Dijon, France"},
+    {name:"⑫ 摩西之井（延伸路線，離市中心較遠）",map:"1 Boulevard Chanoine Kir, 21000 Dijon, France",origin:"1 Rue Brulard, 21000 Dijon, France"}
+  ]},
   {time:"—",a:"Maille Dijon mustard 芥末店觀光",transport:"步行（步道路線上）",map:"Maille Boutique Dijon"},
   {time:"19:30-21:00",a:"晚餐 SO",tag:"待訂位 FB粉專",map:"SO restaurant Dijon"},
   {time:"—",a:"回bnb",note:"搭乘大眾運輸",map:"5 Rue du Chapeau Rouge 21000 Dijon"}
@@ -782,7 +1247,7 @@ const days = [
 {n:6,date:"9/16",wd:"三",city:"dijon",title:"勃根地酒莊一日遊",sub:"包套行程",accom:"Dijon bnb",budget:"酒莊行程費用（待訂）+ 晚餐",items:[
   {time:"09:45",a:"酒莊一日遊出發",transport:"包套行程，交通已含",tag:"待訂（淳）",note:"建議確認接送地點/時間"},
   {time:"17:30",a:"一日遊結束回第戎"},
-  {time:"晚上",a:"晚餐 Le Bouchon Du Palais",transport:"步行（這天較累，建議就近）",note:"推薦紅酒燉牛肉",map:"Le Bouchon du Palais Dijon"}
+  {time:"晚上",a:"晚餐 Le Bouchon Du Palais",transport:"步行（這天較累，建議就近）",note:"推薦紅酒燉牛肉",map:"Le Bouchon du Palais Dijon",menu:"bouchonDuPalais"}
 ]},
 {n:7,date:"9/17",wd:"四",city:"paris",title:"第戎 → 巴黎",sub:"瑪黑區・入住巴黎",accom:"Paris bnb｜151 Rue du Faubourg Saint-Antoine, 75011 Paris",budget:"交通 €10-15 + 博物館 + 餐飲",items:[
   {time:"09:32",a:"Dijon → Paris Gare de Lyon",transport:"高鐵已訂票",note:"約1.5小時",map:"Gare de Lyon Paris"},
@@ -794,10 +1259,10 @@ const days = [
   {time:"—",a:"甜點 Brigat'",transport:"步行",note:"外帶去廣場，需自備餐具，🌟夏天有gelato",map:"Brigat patisserie Paris"},
   {time:"—",a:"孚日廣場",transport:"步行",map:"Place des Vosges Paris"},
   {time:"15:00",a:"bnb check in",note:"確認Uber/機場接送價格",map:"151 Rue du Faubourg Saint-Antoine 75011 Paris"},
-  {time:"18-22",a:"晚餐 VIET NAM IMPRESSIONS",map:"Viet Nam Impressions Paris"}
+  {time:"18-22",a:"晚餐 VIET NAM IMPRESSIONS",map:"Viet Nam Impressions Paris",menu:"vietNamImpressions"}
 ]},
 {n:8,date:"9/18",wd:"五",city:"paris",title:"莫內美術館 → 鐵塔 → 市中心",sub:"⚠️動線較遠，注意銜接時間",accom:"Paris bnb",budget:"門票€29 + 交通€15-20 + 餐飲",items:[
-  {time:"—",a:"早餐 Café Biboune",note:"營業時間08:30-16:00",map:"105 Rue du Cherche-Midi 75006 Paris"},
+  {time:"—",a:"早餐 Café Biboune",note:"營業時間08:30-16:00",map:"105 Rue du Cherche-Midi 75006 Paris",menu:"cafeBiboune"},
   {time:"—",a:"Musée Marmottan Monet",transport:"地鐵9號線 La Muette站",note:"門票€14",map:"Musee Marmottan Monet Paris"},
   {time:"—",a:"比爾哈克姆橋",transport:"地鐵6號線",map:"Pont de Bir-Hakeim Paris"},
   {time:"—",a:"巴黎鐵塔 photo spot",transport:"步行（鄰近上一站）",map:"Trocadero Eiffel Tower photo spot"},
@@ -809,7 +1274,7 @@ const days = [
 ]},
 {n:9,date:"9/19",wd:"六",city:"paris",title:"拉法葉百貨 → 蒙馬特",sub:"聖心堂・愛牆",accom:"Paris bnb",budget:"交通€10 + 餐飲 + 購物",items:[
   {time:"10:00",a:"Galeries Lafayette Haussmann",transport:"地鐵",note:"10:00營業",map:"Galeries Lafayette Haussmann Paris"},
-  {time:"12:15",a:"午餐 Restaurant Panurge",tag:"待訂位",note:"午間套餐€33",map:"Restaurant Panurge Paris",menu:"panurge"},
+  {time:"12:15",a:"午餐 Restaurant Panurge",tag:"已訂位",note:"午間套餐€33",map:"Restaurant Panurge Paris",menu:"panurge"},
   {time:"—",a:"麵包 Mamiche",transport:"步行",map:"Mamiche boulangerie Paris"},
   {time:"—",a:"愛牆 Le mur des je t'aime",transport:"步行/地鐵",map:"Le mur des je t'aime Paris"},
   {time:"—",a:"聖心堂",transport:"步行",map:"Basilique du Sacre-Coeur Paris"},
@@ -857,16 +1322,18 @@ const days = [
 ]},
 {n:15,date:"9/25",wd:"五",city:"paris",title:"自由活動＋收行李",sub:"輕鬆的一天",accom:"Paris bnb",budget:"餐飲為主",items:[
   {time:"—",a:"麵包 La Panifacture",transport:"步行",map:"La Panifacture Paris"},
-  {time:"—",a:"SUGO pasta fresca - Chateau d'Eau",transport:"步行",map:"SUGO pasta fresca Chateau d'Eau Paris"},
+  {time:"—",a:"SUGO pasta fresca - Chateau d'Eau",transport:"步行",map:"SUGO pasta fresca Chateau d'Eau Paris",menu:"sugoParis"},
+  {time:"—",a:"聖馬丁運河旁吃冰淇淋 JJ Hings Ice Cream",note:"營業時間14:00–22:00",link:"https://maps.app.goo.gl/hjw8essXMs4WonQNA",map:"46 Rue Bichat, 75010 Paris, France"},
   {time:"—",a:"收行李"}
 ]},
 {n:16,date:"9/26",wd:"六",city:"transit",title:"巴黎 → 機場旅館",sub:"最後一天",accom:"Holiday Inn Express Paris - CDG",budget:"Uber車資 + 行李寄放 + 餐飲",items:[
   {time:"11:00",a:"bnb check out"},
   {time:"—",a:"寄放行李",note:"可在bnb預約，或車站Hall 3地下一樓靠近Rue de Bercy出口"},
-  {time:"—",a:"甜點 Tapisserie - Charonne",transport:"步行",map:"Tapisserie Charonne Paris"},
-  {time:"—",a:"Klover Coffee Showroom",link:"https://maps.app.goo.gl/mjXF53fMXptARSaY8",map:"Klover Coffee Showroom Paris"},
+  {time:"—",a:"甜點 Tapisserie - Charonne",transport:"步行",note:"營業時間9:30-19:00，🌟閃電泡芙、檸檬塔",map:"Tapisserie Charonne Paris"},
+  {time:"—",a:"Klover Coffee Showroom",link:"https://maps.app.goo.gl/mjXF53fMXptARSaY8",note:"營業時間10:00–17:30",map:"Klover Coffee Showroom Paris"},
+  {time:"—",a:"Optional Plan：小皇宮 Petit Palais（免費參觀）",link:"https://maps.app.goo.gl/Z1pQ1i6m1VN8ztrx8",map:"Av. Winston Churchill, 75008 Paris, France"},
   {time:"18:00",a:"叫 Uber 去機場旅館",transport:"Uber",note:"請提前確認Uber/機場接送價格"},
-  {time:"—",a:"Holiday Inn Express Paris - CDG Airport",note:"15:00後可入住",map:"Holiday Inn Express Paris CDG Airport 5 Rue Du Voyageur Roissy-en-France"}
+  {time:"—",a:"Holiday Inn Express Paris - CDG Airport",note:"15:00後可入住",origin:"151 Rue du Faubourg Saint-Antoine 75011 Paris France",map:"Holiday Inn Express Paris CDG Airport 5 Rue Du Voyageur Roissy-en-France"}
 ]},
 {n:17,date:"9/27",wd:"日",city:"transit",title:"巴黎 → 台北",sub:"長榮 BR88",accom:"—",budget:"—",items:[
   {time:"07:20",a:"CDG 抵達機場",note:"BR88報到"},
@@ -890,6 +1357,8 @@ const accomMapByDay = {2:LYON_BNB,3:LYON_BNB,4:DIJON_BNB,5:DIJON_BNB,6:DIJON_BNB
       if(it.map){
         if(it.origin===undefined) it.origin = prev;
         prev = it.map;
+      } else if(it.stops && it.stops.length){
+        prev = it.stops[it.stops.length-1].map;
       }
     });
     const nightAccom = accomMapByDay[d.n];
@@ -923,6 +1392,8 @@ function renderDay(){
           ${it.tag ? `<span class="pill todo">${it.tag}</span>`:''}
         </div>
         ${it.note ? `<div class="note">${it.note}</div>`:''}
+        ${it.stops ? `<a class="map-btn" target="_blank" href="${dirMultiUrl(it.stops,'walking')}">開啟完整路線導航（${it.stops.length}站）</a>
+        <div class="stop-links">${it.stops.map(s=>`<a class="stop-link" target="_blank" href="${s.origin ? dirUrl(s.origin, s.map, '步行') : mapUrl(s.map)}">${s.name}</a>`).join('')}</div>`:''}
         ${(it.map || it.link) ? `<a class="map-btn" target="_blank" href="${it.link ? it.link : (it.origin ? dirUrl(it.origin, it.map, it.transport) : mapUrl(it.map))}">開啟導航</a>`:''}
       </div>
     </div>
