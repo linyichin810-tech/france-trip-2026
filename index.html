@@ -514,7 +514,7 @@
         <h2>交通方式</h2>
         <div class="info-card">
           <h3>城市間高鐵（已訂票）</h3>
-          <p>CDG → Lyon Part-Dieu：9/12　TGV，約2小時</p>
+          <p>CDG → Lyon Part-Dieu：9/12 11:58 出發</p>
           <p>Lyon Part-Dieu → Dijon：9/14 15:16 出發</p>
           <p>Dijon → Paris Gare de Lyon：9/17 09:32 出發</p>
         </div>
@@ -595,30 +595,6 @@
       </div>
     </section>
 
-    <section id="tab-budget" class="tab">
-      <div class="section-pad">
-        <h2>每日預估花費</h2>
-        <div id="budgetList"></div>
-        <h2 style="margin-top:22px;">實用資訊</h2>
-        <div class="info-card">
-          <h3>網路</h3>
-          <p>建議抵達 CDG 後購買歐洲/法國 eSIM，或出發前先線上購買落地即用。</p>
-        </div>
-        <div class="info-card">
-          <h3>換匯</h3>
-          <p>台灣先兌換部分歐元現金（市集、小費、寄物櫃常需現金），其餘以信用卡支付為主。</p>
-        </div>
-        <div class="info-card">
-          <h3>保險</h3>
-          <p>出發前確認信用卡附贈的海外旅遊平安險/不便險保障範圍，不足可另外加保。</p>
-        </div>
-        <div class="info-card">
-          <h3>緊急聯絡</h3>
-          <p>法國：17（警察）／15（救護車）／112（歐盟通用）</p>
-          <p>建議出發前查好駐法國台北代表處緊急聯絡電話並存入手機。</p>
-        </div>
-      </div>
-    </section>
   </main>
 
   <nav class="bottom-nav">
@@ -626,7 +602,6 @@
     <button class="nav-btn" data-tab="transport"><span class="ic">🚆</span>交通</button>
     <button class="nav-btn" data-tab="accommodation"><span class="ic">🛏️</span>住宿</button>
     <button class="nav-btn" data-tab="packing"><span class="ic">🧳</span>行李</button>
-    <button class="nav-btn" data-tab="budget"><span class="ic">💶</span>預算</button>
   </nav>
 
   <div class="menu-backdrop hidden" id="menuBackdrop">
@@ -1813,7 +1788,7 @@ const days = [
   {time:"—",a:"冰淇淋 Berthillon",map:"Berthillon Paris"}
 ]},
 {n:13,date:"9/23",wd:"三",city:"paris",title:"凡爾賽宮一日遊",sub:"⚠️行程滿，體力消耗大",accom:"Paris bnb",budget:"凡爾賽宮票 + RER交通€10-15 + 晚餐",items:[
-  {time:"08:00",a:"bnb 至凡爾賽宮約75分鐘",transport:"步行至Metro B Ledru-Rollin→13站至軍榮院站→轉RER C 11站至Versailles",note:"需另外購買點對點RER票"},
+  {time:"08:00",a:"bnb 至凡爾賽宮約75分鐘",transport:"步行至Metro B Ledru-Rollin→13站至軍榮院站→轉RER C 11站至Versailles",note:"✅已查證：2025年起票價改革，不需再買點對點RER票，一般Metro-Train-RER單程票€2.55即可搭到Versailles Château Rive Gauche站，來回車票約€5.10/人（當天若還有其他地鐵段，每段各算一張€2.55）"},
   {time:"09:30-14:30",a:"凡爾賽宮",note:"宮殿內部4-5小時，9:00-17:30，現場語音導覽€5",map:"Chateau de Versailles"},
   {time:"15:00-16:00",a:"凡爾賽宮搭RER C至軍榮院站",transport:"RER C"},
   {time:"—",a:"晚餐 Les Cocottes",map:"Les Cocottes Paris",menu:"lesCocottes"},
@@ -1824,14 +1799,14 @@ const days = [
   {time:"09:00",a:"橘園美術館",note:"9:00-18:00，1-1.5hr，已預約",tag:"已預約",map:"Musee de l'Orangerie Paris"},
   {time:"—",a:"杜樂麗花園",transport:"步行2分",map:"Jardin des Tuileries Paris"},
   {time:"—",a:"羅丹美術館",note:"10:00-18:30，已預約",tag:"已預約",map:"Musee Rodin Paris"},
-  {time:"—",a:"午餐 Da Rocco",note:"帕尼尼",map:"Da Rocco Paris",menu:"daRocco"},
+  {time:"—",a:"午餐 Da Rocco",note:"帕尼尼&巧巴達",map:"Da Rocco Paris",menu:"daRocco"},
   {time:"—",a:"Tax Free La Boutique",link:"https://maps.app.goo.gl/cUTahZnUJgskivPE8",map:"Tax Free La Boutique Paris"},
   {time:"18:00",a:"奧賽美術館",note:"入場排A2區，已預約",tag:"已預約",map:"Musee d'Orsay Paris"}
 ]},
 {n:15,date:"9/25",wd:"五",city:"paris",title:"自由活動＋收行李",sub:"輕鬆的一天",accom:"Paris bnb",budget:"餐飲為主",items:[
   {time:"—",a:"麵包 La Panifacture",transport:"步行10分",map:"La Panifacture Paris"},
   {time:"—",a:"SUGO pasta fresca - Chateau d'Eau",transport:"步行10分",map:"SUGO pasta fresca Chateau d'Eau Paris",menu:"sugoParis"},
-  {time:"—",a:"聖馬丁運河旁吃冰淇淋 JJ Hings Ice Cream",note:"營業時間14:00–22:00",link:"https://maps.app.goo.gl/hjw8essXMs4WonQNA",map:"46 Rue Bichat, 75010 Paris, France"},
+  {time:"—",a:"聖馬丁運河旁吃冰淇淋 JJ Hings Ice Cream",note:"營業時間14:00–22:00",origin:"SUGO pasta fresca Chateau d'Eau Paris",map:"46 Rue Bichat, 75010 Paris, France"},
   {time:"—",a:"收行李"}
 ]},
 {n:16,date:"9/26",wd:"六",city:"transit",title:"巴黎 → 機場旅館",sub:"最後一天",accom:"Holiday Inn Express Paris - CDG",budget:"Uber車資 + 行李寄放 + 餐飲",items:[
@@ -2141,16 +2116,6 @@ function makeSortable(listEl, onDrop){
   listEl.addEventListener('pointercancel', endDrag);
 }
 
-function renderBudget(){
-  const wrap = document.getElementById('budgetList');
-  wrap.innerHTML = days.map(d=>`
-    <div class="budget-row">
-      <div><b>Day ${d.n}</b> ${d.date}（${d.wd}） <span class="d">${cityLabel[d.city]}</span></div>
-      <div class="d" style="text-align:right;max-width:55%;">${d.budget}</div>
-    </div>
-  `).join('');
-}
-
 document.querySelectorAll('.nav-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -2173,7 +2138,6 @@ if(packResetBtn){
     location.reload();
   });
 }
-renderBudget();
 
 function syncStickyOffset(){
   const headerEl = document.querySelector('.app-header');
