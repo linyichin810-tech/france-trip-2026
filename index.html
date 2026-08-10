@@ -1579,6 +1579,30 @@ const restaurantMenus = {
       ]}
     ]
   },
+  jipParis: {
+    title: "jip.paris",
+    sections: [
+      {name:"套餐（35€）", items:[]},
+      {name:"First（二選一）", items:[
+        {fr:"SASHIMI", zh:"生魚片：鯛魚、南姜辣椒醬（namjim）、烤米香、馬齒莧"},
+        {fr:"ZUCCHINI CRESCENTS", zh:"櫛瓜新月餃：豆腐、海苔、達特里諾番茄醬"}
+      ]},
+      {name:"Second（二選一）", items:[
+        {fr:"MADAME BUTTERFLY", zh:"蝴蝶夫人：蝦、四川風味蒜蓉美乃滋、茴香"},
+        {fr:"MANDOO", zh:"韓式煎餃：燒茄子、薑、蔥、Gwell醬"}
+      ]},
+      {name:"Third（二選一）", items:[
+        {fr:"COLD SAMBAL NOODLES", zh:"冷麵：參巴辣醬、油封魟魚翼、菊芋脆片、醃小黃瓜"},
+        {fr:"YELLOW TOMATO NOODLES", zh:"黃番茄冷麵：黃番茄水、番茄泡菜、金蓮花"}
+      ]},
+      {name:"加購 Suppléments", items:[
+        {fr:"POTATO, SPECK CHILI JAM", zh:"馬鈴薯配義式煙燻火腿辣椒果醬", price:"+8€"},
+        {fr:"ASSORTED PICKLES", zh:"綜合醃菜拼盤", price:"+7€"},
+        {fr:"NOODLE REFILL", zh:"麵條續碗", price:"+5€"},
+        {fr:"PEACH SORBET", zh:"水蜜桃雪酪", price:"+8€"}
+      ]}
+    ]
+  },
   cafeBiboune: {
     title: "Café Biboune",
     sections: [
@@ -1751,7 +1775,7 @@ const days = [
   {time:"—",a:"戰神廣場",transport:"步行5分",map:"Champ de Mars Paris"},
   {time:"—",a:"Bourse de Commerce - Pinault Collection",transport:"地鐵換乘至1區",note:"營業時間11-19點，門票€15",map:"Bourse de Commerce Pinault Collection Paris"},
   {time:"—",a:"回bnb休息",map:"151 Rue du Faubourg Saint-Antoine 75011 Paris"},
-  {time:"—",a:"jip.paris",tag:"待訂位",origin:"151 Rue du Faubourg Saint-Antoine 75011 Paris",map:"jip paris restaurant"}
+  {time:"18:30-20:00",a:"jip.paris",tag:"已訂位",origin:"151 Rue du Faubourg Saint-Antoine 75011 Paris",map:"jip paris restaurant",menu:"jipParis"}
 ]},
 {n:9,date:"9/19",wd:"六",city:"paris",title:"拉法葉百貨 → 蒙馬特",sub:"聖心堂・愛牆",accom:"Paris bnb",budget:"交通€10 + 餐飲 + 購物",items:[
   {time:"10:00",a:"Galeries Lafayette Haussmann",transport:"地鐵",note:"10:00營業",map:"Galeries Lafayette Haussmann Paris"},
