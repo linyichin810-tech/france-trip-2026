@@ -581,14 +581,28 @@
             <a class="map-btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Holiday+Inn+Express+Paris+CDG+Airport+5+Rue+Du+Voyageur+Roissy-en-France">在 Google Maps 開啟導航</a>
           </div>
         </div>
+        <h2 style="margin-top:22px;">緊急聯絡</h2>
+        <div class="info-card">
+          <h3>駐法國台北代表處 24小時急難救助電話</h3>
+          <p>📞 0680074994（國外撥打 +33680074994）</p>
+          <p>📍 78 rue de l'Université, 75007 Paris, France</p>
+          <a class="map-btn" target="_blank" href="https://maps.app.goo.gl/ui2TfG8n2Y3468tz6">在 Google Maps 開啟導航</a>
+        </div>
+        <div class="info-card">
+          <h3>法國緊急電話</h3>
+          <p>17（警察）／15（救護車）／112（歐盟通用緊急號碼）</p>
+        </div>
       </div>
     </section>
 
     <section id="tab-packing" class="tab">
       <div class="section-pad">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
           <h2 style="margin-bottom:0;">行前準備 / 行李清單</h2>
-          <button id="packResetBtn" style="font-size:11.5px;padding:5px 10px;border-radius:20px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink-soft);">重置清單</button>
+          <div style="display:flex;gap:6px;flex-shrink:0;">
+            <button id="packExportBtn" style="font-size:11.5px;padding:5px 10px;border-radius:20px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink-soft);">匯出成文字</button>
+            <button id="packResetBtn" style="font-size:11.5px;padding:5px 10px;border-radius:20px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink-soft);">重置清單</button>
+          </div>
         </div>
         <p style="font-size:11.5px;color:var(--ink-soft);margin:6px 0 12px;">此清單會自動保存在這台裝置的瀏覽器中</p>
         <div id="packContainer"></div>
@@ -2161,6 +2175,62 @@ if(packResetBtn){
     if(!confirm('確定要清空這台裝置上目前的行李清單，恢復成預設清單嗎？')) return;
     try{ localStorage.removeItem(PACK_STORAGE_KEY); }catch(e){}
     location.reload();
+  });
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function buildPackingExportText(){
+  const lines = [];
+  document.querySelectorAll('#packContainer .pack-group').forEach(g=>{
+    const title = g.querySelector('h3').textContent;
+    const items = [...g.querySelectorAll('.pack-item')];
+    if(!items.length) return;
+    lines.push('【'+title+'】');
+    items.forEach(el=>{
+      const checked = el.querySelector('.pack-check').checked ? '☑' : '☐';
+      const name = el.querySelector('.pack-name').textContent;
+      const qty = el.querySelector('.pack-qty').value.trim();
+      const unit = el.querySelector('.pack-unit').value.trim();
+      let suffix = '';
+      if(qty && unit) suffix = ` x${qty}${unit}`;
+      else if(qty) suffix = ` x${qty}`;
+      else if(unit) suffix = ` (${unit})`;
+      lines.push(`${checked} ${name}${suffix}`);
+    });
+    lines.push('');
+  });
+  return lines.join('\n').trim();
+}
+
+const packExportBtn = document.getElementById('packExportBtn');
+if(packExportBtn){
+  packExportBtn.addEventListener('click', ()=>{
+    const text = buildPackingExportText();
+    document.getElementById('menuModalTitle').textContent = '行李清單（純文字）';
+    document.getElementById('menuModalBody').innerHTML = `
+      <p style="font-size:12px;color:var(--ink-soft);margin-bottom:10px;">可以直接長按全選複製，或點下方按鈕自動複製到剪貼簿</p>
+      <textarea id="packExportText" readonly style="width:100%;min-height:340px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;font-family:'Work Sans',sans-serif;background:var(--paper-2);color:var(--ink);box-sizing:border-box;">${escapeHtml(text)}</textarea>
+      <button id="packExportCopyBtn" style="margin-top:10px;width:100%;padding:11px;border-radius:8px;border:none;background:var(--lyon);color:#fff;font-size:13px;font-family:'Work Sans',sans-serif;">複製到剪貼簿</button>
+    `;
+    document.getElementById('menuBackdrop').classList.remove('hidden');
+    const copyBtn = document.getElementById('packExportCopyBtn');
+    copyBtn.addEventListener('click', async ()=>{
+      const ta = document.getElementById('packExportText');
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, 999999);
+      let copied = false;
+      try{
+        await navigator.clipboard.writeText(ta.value);
+        copied = true;
+      }catch(e){
+        try{ copied = document.execCommand('copy'); }catch(e2){}
+      }
+      copyBtn.textContent = copied ? '已複製 ✓' : '複製失敗，請手動長按選取';
+    });
   });
 }
 
